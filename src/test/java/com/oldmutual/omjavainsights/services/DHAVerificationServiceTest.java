@@ -6,8 +6,12 @@ import com.oldmutual.omjavainsights.repositories.IDHAVerificationRepository;
 import com.oldmutual.omjavainsights.services.interfaces.IDHAVerificationService;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
+import org.junit.jupiter.api.extension.ExtendWith;
+import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.MockitoAnnotations;
+import org.mockito.Spy;
+import org.mockito.junit.jupiter.MockitoExtension;
 
 import java.util.Date;
 import java.util.Optional;
@@ -15,6 +19,7 @@ import java.util.Optional;
 import static org.junit.jupiter.api.Assertions.*;
 import static org.mockito.Mockito.when;
 
+@ExtendWith(MockitoExtension.class)
 class DHAVerificationServiceTest {
 
     public static final Long ID = 1L;
@@ -25,18 +30,19 @@ class DHAVerificationServiceTest {
     public static final String GENDER = "Male";
     public static final Date DATERECEIVED = new Date();
 
-    IDHAVerificationService verificationService;
+    @InjectMocks
+    DHAVerificationService verificationService;
 
     @Mock
     IDHAVerificationRepository verificationRepository;
 
+    @Spy
+    IDHAVerificationMapper verificationMapper;
 
     @BeforeEach
     void setUp() {
 
         MockitoAnnotations.openMocks(this);
-
-        verificationService = new DHAVerificationService(IDHAVerificationMapper.INSTANCE, verificationRepository);
     }
 
     @Test

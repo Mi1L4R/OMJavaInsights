@@ -6,30 +6,37 @@ import com.oldmutual.omjavainsights.repositories.ICountryRepository;
 import com.oldmutual.omjavainsights.services.interfaces.ICountryService;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
+import org.junit.jupiter.api.extension.ExtendWith;
+import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.MockitoAnnotations;
+import org.mockito.Spy;
+import org.mockito.junit.jupiter.MockitoExtension;
 
 import java.util.Optional;
 
 import static org.junit.jupiter.api.Assertions.*;
 import static org.mockito.Mockito.when;
 
+@ExtendWith(MockitoExtension.class)
 public class CountryServiceTest {
 
     public static final Long ID = 123L;
     public static final String CODE = "Code1";
     public static final String CLASSIFICATION = "Classified";
 
-    ICountryService countryService;
+    @InjectMocks
+    CountryService countryService;
 
     @Mock
     ICountryRepository countryRepository;
 
+    @Spy
+    ICountryMapper countryMapper;
+
     @BeforeEach
     void setUp() {
         MockitoAnnotations.openMocks(this);
-
-        countryService = new CountryService(ICountryMapper.INSTANCE, countryRepository);
     }
 
     @Test

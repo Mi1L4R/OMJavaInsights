@@ -6,8 +6,12 @@ import com.oldmutual.omjavainsights.repositories.IVerificationDocumentRepository
 import com.oldmutual.omjavainsights.services.interfaces.IVerificationDocumentService;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
+import org.junit.jupiter.api.extension.ExtendWith;
+import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.MockitoAnnotations;
+import org.mockito.Spy;
+import org.mockito.junit.jupiter.MockitoExtension;
 
 import java.util.Date;
 import java.util.Optional;
@@ -15,6 +19,7 @@ import java.util.Optional;
 import static org.junit.jupiter.api.Assertions.*;
 import static org.mockito.Mockito.when;
 
+@ExtendWith(MockitoExtension.class)
 class VerificationDocumentServiceTest {
 
     private static final Long ID = 1L;
@@ -25,17 +30,19 @@ class VerificationDocumentServiceTest {
     private static final Date ENDDATE = new Date();
     private static final Date MODIFIEDON = new Date();
 
-    IVerificationDocumentService verificationDocumentService;
+    @InjectMocks
+    VerificationDocumentService verificationDocumentService;
 
     @Mock
     IVerificationDocumentRepository verificationDocumentRepository;
+
+    @Spy
+    IVerificationDocumentMapper verificationDocumentMapper;
 
     @BeforeEach
     void setUp() {
 
         MockitoAnnotations.openMocks(this);
-
-        verificationDocumentService = new VerificationDocumentService(IVerificationDocumentMapper.INSTANCE, verificationDocumentRepository);
     }
 
     @Test

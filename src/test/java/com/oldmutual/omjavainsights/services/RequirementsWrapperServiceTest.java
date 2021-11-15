@@ -11,8 +11,12 @@ import com.oldmutual.omjavainsights.repositories.IRequirementsWrapperRepository;
 import com.oldmutual.omjavainsights.services.interfaces.IRequirementsWrapperService;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
+import org.junit.jupiter.api.extension.ExtendWith;
+import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.MockitoAnnotations;
+import org.mockito.Spy;
+import org.mockito.junit.jupiter.MockitoExtension;
 
 import java.util.Arrays;
 import java.util.Date;
@@ -22,6 +26,7 @@ import java.util.Optional;
 import static org.junit.jupiter.api.Assertions.*;
 import static org.mockito.Mockito.when;
 
+@ExtendWith(MockitoExtension.class)
 class RequirementsWrapperServiceTest {
 
     public static final Long ID = 1L;
@@ -64,17 +69,20 @@ class RequirementsWrapperServiceTest {
     public static  final String SDFAT = "ScreeningDoneFOrActiveTransactions";
     public static  final String HADMARKERS = "This may be removed";
 
-    IRequirementsWrapperService requirementsWrapperService;
+    @InjectMocks
+    RequirementsWrapperService requirementsWrapperService;
 
     @Mock
     IRequirementsWrapperRepository requirementsWrapperRepository;
+
+    @Spy
+    IRequirementsWrapperMapper requirementsWrapperMapper;
 
     @BeforeEach
     void setUp() {
 
         MockitoAnnotations.openMocks(this);
 
-        requirementsWrapperService = new RequirementsWrapperService(IRequirementsWrapperMapper.INSTANCE, requirementsWrapperRepository);
     }
 
     @Test
@@ -99,10 +107,10 @@ class RequirementsWrapperServiceTest {
         //then
         assertAll("Assert that repo retrieved a Requirement and successfully mapped it (Needs to map types as well)",
                 () -> assertEquals(ID, reqWrapperDTO.getRequirementsWrapperId()),
-                () -> assertEquals(IRoleMapper.INSTANCE.roleToRoleDTO(ROLE), reqWrapperDTO.getRoleInTransaction()),
+                () -> assertEquals(ROLE, reqWrapperDTO.getRoleInTransaction()),
                 () -> assertEquals(FULLREQUIREMENTS, reqWrapperDTO.getFullRequirements()),
                 () -> assertEquals(PARTYCAT, reqWrapperDTO.getPartyCategorization()),
-                () -> assertEquals(IRequirementMapper.INSTANCE.requirementListToRequirementDTOList(REQUIREMENTS), reqWrapperDTO.getRequirementsOutput()),
+                () -> assertEquals(REQUIREMENTS, reqWrapperDTO.getRequirementsOutput()),
                 () -> assertEquals(RRDFAT, reqWrapperDTO.getRiskRatingDoneForActiveTransactions()),
                 () -> assertEquals(SDFAT, reqWrapperDTO.getScreeningDoneForActiveTransactions()),
                 () -> assertEquals(HADMARKERS, reqWrapperDTO.getHadMarkers())

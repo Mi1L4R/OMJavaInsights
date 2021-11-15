@@ -9,10 +9,8 @@ import org.mapstruct.factory.Mappers;
 
 import java.util.List;
 
-@Mapper
+@Mapper(componentModel = "spring")
 public interface IContactDetailMapper {
-
-    IContactDetailMapper INSTANCE = Mappers.getMapper(IContactDetailMapper.class);
 
     // todo add mapping needed for contactDetail and contactDetail dto
     ContactDetailDTO contactDetailToContactDetailDTO(ContactDetail contactDetail);

@@ -10,8 +10,12 @@ import com.oldmutual.omjavainsights.services.interfaces.IRequirementService;
 import lombok.Data;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
+import org.junit.jupiter.api.extension.ExtendWith;
+import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.MockitoAnnotations;
+import org.mockito.Spy;
+import org.mockito.junit.jupiter.MockitoExtension;
 
 import java.util.Date;
 import java.util.Optional;
@@ -19,6 +23,7 @@ import java.util.Optional;
 import static org.junit.jupiter.api.Assertions.*;
 import static org.mockito.Mockito.when;
 
+@ExtendWith(MockitoExtension.class)
 class RequirementServiceTest {
 
     public static final Long ID = 1L;
@@ -32,17 +37,19 @@ class RequirementServiceTest {
     public static final Date CREATEDDATE = new Date();
     public static final Boolean NEWREQ = true;
 
-    IRequirementService requirementService;
+    @InjectMocks
+    RequirementService requirementService;
 
     @Mock
     IRequirementRepository requirementRepository;
+
+    @Spy
+    IRequirementMapper requirementMapper;
 
     @BeforeEach
     void setUp() {
 
         MockitoAnnotations.openMocks(this);
-
-        requirementService = new RequirementService(IRequirementMapper.INSTANCE, requirementRepository);
     }
 
     @Test
@@ -70,7 +77,7 @@ class RequirementServiceTest {
         assertAll("Assert that repo retrieved a Requirement and successfully mapped it (Needs to map types as well)",
                 () -> assertEquals(ID, requirementDTO.getRequirementId()),
                 () -> assertEquals(STATUS, requirementDTO.getStatus()),
-                () -> assertEquals(ICountryMapper.INSTANCE.countryToCountryDTO(COUNTRY), requirementDTO.getCountry()),
+                () -> assertEquals(COUNTRY, requirementDTO.getCountry()),
                 () -> assertEquals(REQCATEGORY, requirementDTO.getRequirementsCategory()),
                 () -> assertEquals(REQTYPE, requirementDTO.getRequirementsType()),
                 () -> assertEquals(REQSUBTYPE, requirementDTO.getRequirementsSubType()),

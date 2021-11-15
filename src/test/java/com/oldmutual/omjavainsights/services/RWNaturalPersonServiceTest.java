@@ -7,8 +7,12 @@ import com.oldmutual.omjavainsights.repositories.IRWNaturalPersonRepository;
 import com.oldmutual.omjavainsights.services.interfaces.IRWNaturalPersonService;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
+import org.junit.jupiter.api.extension.ExtendWith;
+import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.MockitoAnnotations;
+import org.mockito.Spy;
+import org.mockito.junit.jupiter.MockitoExtension;
 
 import java.util.Arrays;
 import java.util.Date;
@@ -17,6 +21,7 @@ import java.util.Optional;
 import static org.junit.jupiter.api.Assertions.*;
 import static org.mockito.Mockito.when;
 
+@ExtendWith(MockitoExtension.class)
 class RWNaturalPersonServiceTest {
 
     public static final Long ID = 1L;
@@ -60,18 +65,20 @@ class RWNaturalPersonServiceTest {
             .build();
     private static final String DECISIONID = "DecisionId";
 
-    IRWNaturalPersonService rwNaturalPersonService;
+    @InjectMocks
+    RWNaturalPersonService rwNaturalPersonService;
 
     @Mock
     IRWNaturalPersonRepository rwNaturalPersonRepository;
+
+    @Spy
+    IRWNaturalPersonMapper irwNaturalPersonMapper;
 
 
     @BeforeEach
     void setUp() {
 
         MockitoAnnotations.openMocks(this);
-
-        rwNaturalPersonService = new RWNaturalPersonService(IRWNaturalPersonMapper.INSTANCE, rwNaturalPersonRepository);
     }
 
     @Test
@@ -91,7 +98,7 @@ class RWNaturalPersonServiceTest {
         //then
         assertAll("Assert that repo retrieved a IdentificationDetail and successfully mapped it",
                 () -> assertEquals(ID, rwNatPerDTO.getRwNaturalPersonId()),
-                () -> assertEquals(IRequirementsWrapperMapper.INSTANCE.rwTorwDTO(REQUIREMENTSWRAPPER), rwNatPerDTO.getRequirementsWrapper()),
+                () -> assertEquals(REQUIREMENTSWRAPPER, rwNatPerDTO.getRequirementsWrapper()),
                 () -> assertEquals(DECISIONID, rwNatPer.getDecisionId())
                 );
     }

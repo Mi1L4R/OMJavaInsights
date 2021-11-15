@@ -10,12 +10,8 @@ import org.mapstruct.factory.Mappers;
 
 import java.util.List;
 
-@Mapper
+@Mapper(componentModel = "spring")
 public interface ICountryMapper {
-
-    ICountryMapper INSTANCE = Mappers.getMapper(ICountryMapper.class);
-
-
 
     // todo add mapping needed for country and country dto differences
     CountryDTO countryToCountryDTO(Country country);

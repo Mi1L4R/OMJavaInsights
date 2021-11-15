@@ -55,24 +55,6 @@ public class Requirement {
     @ManyToOne(fetch = FetchType.LAZY)
     private NaturalPerson naturalPerson;
 
-    //Todo find out about below fields
-
-    //<editor-fold desc="Fields excluded as they weren't in the rules model">
-    /*@Column(name = "LocalRequirementType")
-    private String localRequirementType;
-
-    @Column(name = "LocalRequirementDescription")
-    private String localRequirementDescription;
-
-    @Column(name = "LocalRequirementStatus")
-    private String localRequirementStatus;
-
-    @Column(name = "CorrelationId")
-    private String correlationId;
-
-    @Column(name = "Evaluated")
-    private Date evaluatedDate;*/
-    //</editor-fold>\
 
     public Requirement(){
 
@@ -82,13 +64,47 @@ public class Requirement {
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;
-        if (o == null || Hibernate.getClass(this) != Hibernate.getClass(o)) return false;
+        if (!(o instanceof Requirement)) return false;
+
         Requirement that = (Requirement) o;
-        return requirementId != null && Objects.equals(requirementId, that.requirementId);
+
+        if (getRequirementId() != null ? !getRequirementId().equals(that.getRequirementId()) : that.getRequirementId() != null)
+            return false;
+        if (getStatus() != null ? !getStatus().equals(that.getStatus()) : that.getStatus() != null) return false;
+        if (getCountry() != null ? !getCountry().equals(that.getCountry()) : that.getCountry() != null) return false;
+        if (getRequirementsCategory() != null ? !getRequirementsCategory().equals(that.getRequirementsCategory()) : that.getRequirementsCategory() != null)
+            return false;
+        if (getRequirementsType() != null ? !getRequirementsType().equals(that.getRequirementsType()) : that.getRequirementsType() != null)
+            return false;
+        if (getRequirementsSubType() != null ? !getRequirementsSubType().equals(that.getRequirementsSubType()) : that.getRequirementsSubType() != null)
+            return false;
+        if (getRegulation() != null ? !getRegulation().equals(that.getRegulation()) : that.getRegulation() != null)
+            return false;
+        if (getAdjacency() != null ? !getAdjacency().equals(that.getAdjacency()) : that.getAdjacency() != null)
+            return false;
+        if (getCreatedDate() != null ? !getCreatedDate().equals(that.getCreatedDate()) : that.getCreatedDate() != null)
+            return false;
+        if (getNewRequirement() != null ? !getNewRequirement().equals(that.getNewRequirement()) : that.getNewRequirement() != null)
+            return false;
+        if (getRequirementsWrapper() != null ? !getRequirementsWrapper().equals(that.getRequirementsWrapper()) : that.getRequirementsWrapper() != null)
+            return false;
+        return getNaturalPerson() != null ? getNaturalPerson().equals(that.getNaturalPerson()) : that.getNaturalPerson() == null;
     }
 
     @Override
     public int hashCode() {
-        return 0;
+        int result = getRequirementId() != null ? getRequirementId().hashCode() : 0;
+        result = 31 * result + (getStatus() != null ? getStatus().hashCode() : 0);
+        result = 31 * result + (getCountry() != null ? getCountry().hashCode() : 0);
+        result = 31 * result + (getRequirementsCategory() != null ? getRequirementsCategory().hashCode() : 0);
+        result = 31 * result + (getRequirementsType() != null ? getRequirementsType().hashCode() : 0);
+        result = 31 * result + (getRequirementsSubType() != null ? getRequirementsSubType().hashCode() : 0);
+        result = 31 * result + (getRegulation() != null ? getRegulation().hashCode() : 0);
+        result = 31 * result + (getAdjacency() != null ? getAdjacency().hashCode() : 0);
+        result = 31 * result + (getCreatedDate() != null ? getCreatedDate().hashCode() : 0);
+        result = 31 * result + (getNewRequirement() != null ? getNewRequirement().hashCode() : 0);
+        result = 31 * result + (getRequirementsWrapper() != null ? getRequirementsWrapper().hashCode() : 0);
+        result = 31 * result + (getNaturalPerson() != null ? getNaturalPerson().hashCode() : 0);
+        return result;
     }
 }

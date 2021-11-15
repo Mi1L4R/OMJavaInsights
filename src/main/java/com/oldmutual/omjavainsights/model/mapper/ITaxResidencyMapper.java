@@ -9,10 +9,8 @@ import org.mapstruct.factory.Mappers;
 
 import java.util.List;
 
-@Mapper(uses = ICountryMapper.class)
+@Mapper(componentModel = "spring",uses = ICountryMapper.class)
 public interface ITaxResidencyMapper {
-
-    ITaxResidencyMapper INSTANCE = Mappers.getMapper(ITaxResidencyMapper.class);
 
     // todo add mapping needed for TaxResidency and TaxResidency dto
     TaxResidencyDTO taxResidencyToTaxResidencyDTO(TaxResidency taxResidency);

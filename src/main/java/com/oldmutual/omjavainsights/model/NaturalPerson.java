@@ -39,11 +39,11 @@ public class NaturalPerson {
     private List<Contract> contracts;
 
     @OneToOne //todo Need to find out cascade type
-    @JoinColumn(name = "countryId", referencedColumnName = "countryId")
+    @JoinColumn(name = "country_COB_Id", referencedColumnName = "countryId")
     private Country countryOfBirth;
 
     @OneToOne //todo Need to find out cascade type
-    @JoinColumn(name = "countryId", referencedColumnName = "countryId")
+    @JoinColumn(name = "country_COR_Id", referencedColumnName = "countryId")
     private Country countryOfResidence;
 
     @Column(name = "DateOfBirth")
@@ -211,13 +211,88 @@ public class NaturalPerson {
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;
-        if (o == null || Hibernate.getClass(this) != Hibernate.getClass(o)) return false;
+        if (!(o instanceof NaturalPerson)) return false;
+
         NaturalPerson that = (NaturalPerson) o;
-        return naturalPersonId != null && Objects.equals(naturalPersonId, that.naturalPersonId);
+
+        if (getNaturalPersonId() != null ? !getNaturalPersonId().equals(that.getNaturalPersonId()) : that.getNaturalPersonId() != null)
+            return false;
+        if (getDhaVerifications() != null ? !getDhaVerifications().equals(that.getDhaVerifications()) : that.getDhaVerifications() != null)
+            return false;
+        if (getAddresses() != null ? !getAddresses().equals(that.getAddresses()) : that.getAddresses() != null)
+            return false;
+        if (getContactDetails() != null ? !getContactDetails().equals(that.getContactDetails()) : that.getContactDetails() != null)
+            return false;
+        if (getContracts() != null ? !getContracts().equals(that.getContracts()) : that.getContracts() != null)
+            return false;
+        if (getCountryOfBirth() != null ? !getCountryOfBirth().equals(that.getCountryOfBirth()) : that.getCountryOfBirth() != null)
+            return false;
+        if (getCountryOfResidence() != null ? !getCountryOfResidence().equals(that.getCountryOfResidence()) : that.getCountryOfResidence() != null)
+            return false;
+        if (getDateOfBirth() != null ? !getDateOfBirth().equals(that.getDateOfBirth()) : that.getDateOfBirth() != null)
+            return false;
+        if (getDateOfDeath() != null ? !getDateOfDeath().equals(that.getDateOfDeath()) : that.getDateOfDeath() != null)
+            return false;
+        if (getEmployeeLevel() != null ? !getEmployeeLevel().equals(that.getEmployeeLevel()) : that.getEmployeeLevel() != null)
+            return false;
+        if (getFirstName() != null ? !getFirstName().equals(that.getFirstName()) : that.getFirstName() != null)
+            return false;
+        if (getLastName() != null ? !getLastName().equals(that.getLastName()) : that.getLastName() != null)
+            return false;
+        if (getPreviousFirstName() != null ? !getPreviousFirstName().equals(that.getPreviousFirstName()) : that.getPreviousFirstName() != null)
+            return false;
+        if (getPreviousLastName() != null ? !getPreviousLastName().equals(that.getPreviousLastName()) : that.getPreviousLastName() != null)
+            return false;
+        if (getGender() != null ? !getGender().equals(that.getGender()) : that.getGender() != null) return false;
+        if (getIdentificationDetails() != null ? !getIdentificationDetails().equals(that.getIdentificationDetails()) : that.getIdentificationDetails() != null)
+            return false;
+        if (getIndustry() != null ? !getIndustry().equals(that.getIndustry()) : that.getIndustry() != null)
+            return false;
+        if (getNationality() != null ? !getNationality().equals(that.getNationality()) : that.getNationality() != null)
+            return false;
+        if (getRoles() != null ? !getRoles().equals(that.getRoles()) : that.getRoles() != null) return false;
+        if (getScreening() != null ? !getScreening().equals(that.getScreening()) : that.getScreening() != null)
+            return false;
+        if (getSourceOfIncome() != null ? !getSourceOfIncome().equals(that.getSourceOfIncome()) : that.getSourceOfIncome() != null)
+            return false;
+        if (getTaxResidencies() != null ? !getTaxResidencies().equals(that.getTaxResidencies()) : that.getTaxResidencies() != null)
+            return false;
+        if (getVerificationDocuments() != null ? !getVerificationDocuments().equals(that.getVerificationDocuments()) : that.getVerificationDocuments() != null)
+            return false;
+        if (getRequirements() != null ? !getRequirements().equals(that.getRequirements()) : that.getRequirements() != null)
+            return false;
+        if (getParty() != null ? !getParty().equals(that.getParty()) : that.getParty() != null) return false;
+        return getTotalRiskRating() != null ? getTotalRiskRating().equals(that.getTotalRiskRating()) : that.getTotalRiskRating() == null;
     }
 
     @Override
     public int hashCode() {
-        return 0;
+        int result = getNaturalPersonId() != null ? getNaturalPersonId().hashCode() : 0;
+        result = 31 * result + (getDhaVerifications() != null ? getDhaVerifications().hashCode() : 0);
+        result = 31 * result + (getAddresses() != null ? getAddresses().hashCode() : 0);
+        result = 31 * result + (getContactDetails() != null ? getContactDetails().hashCode() : 0);
+        result = 31 * result + (getContracts() != null ? getContracts().hashCode() : 0);
+        result = 31 * result + (getCountryOfBirth() != null ? getCountryOfBirth().hashCode() : 0);
+        result = 31 * result + (getCountryOfResidence() != null ? getCountryOfResidence().hashCode() : 0);
+        result = 31 * result + (getDateOfBirth() != null ? getDateOfBirth().hashCode() : 0);
+        result = 31 * result + (getDateOfDeath() != null ? getDateOfDeath().hashCode() : 0);
+        result = 31 * result + (getEmployeeLevel() != null ? getEmployeeLevel().hashCode() : 0);
+        result = 31 * result + (getFirstName() != null ? getFirstName().hashCode() : 0);
+        result = 31 * result + (getLastName() != null ? getLastName().hashCode() : 0);
+        result = 31 * result + (getPreviousFirstName() != null ? getPreviousFirstName().hashCode() : 0);
+        result = 31 * result + (getPreviousLastName() != null ? getPreviousLastName().hashCode() : 0);
+        result = 31 * result + (getGender() != null ? getGender().hashCode() : 0);
+        result = 31 * result + (getIdentificationDetails() != null ? getIdentificationDetails().hashCode() : 0);
+        result = 31 * result + (getIndustry() != null ? getIndustry().hashCode() : 0);
+        result = 31 * result + (getNationality() != null ? getNationality().hashCode() : 0);
+        result = 31 * result + (getRoles() != null ? getRoles().hashCode() : 0);
+        result = 31 * result + (getScreening() != null ? getScreening().hashCode() : 0);
+        result = 31 * result + (getSourceOfIncome() != null ? getSourceOfIncome().hashCode() : 0);
+        result = 31 * result + (getTaxResidencies() != null ? getTaxResidencies().hashCode() : 0);
+        result = 31 * result + (getVerificationDocuments() != null ? getVerificationDocuments().hashCode() : 0);
+        result = 31 * result + (getRequirements() != null ? getRequirements().hashCode() : 0);
+        result = 31 * result + (getParty() != null ? getParty().hashCode() : 0);
+        result = 31 * result + (getTotalRiskRating() != null ? getTotalRiskRating().hashCode() : 0);
+        return result;
     }
 }

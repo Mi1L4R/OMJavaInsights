@@ -34,13 +34,22 @@ public class RWNaturalPerson {
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;
-        if (o == null || Hibernate.getClass(this) != Hibernate.getClass(o)) return false;
+        if (!(o instanceof RWNaturalPerson)) return false;
+
         RWNaturalPerson that = (RWNaturalPerson) o;
-        return rwNaturalPersonId != null && Objects.equals(rwNaturalPersonId, that.rwNaturalPersonId);
+
+        if (getRwNaturalPersonId() != null ? !getRwNaturalPersonId().equals(that.getRwNaturalPersonId()) : that.getRwNaturalPersonId() != null)
+            return false;
+        if (getRequirementsWrapper() != null ? !getRequirementsWrapper().equals(that.getRequirementsWrapper()) : that.getRequirementsWrapper() != null)
+            return false;
+        return getDecisionId() != null ? getDecisionId().equals(that.getDecisionId()) : that.getDecisionId() == null;
     }
 
     @Override
     public int hashCode() {
-        return 0;
+        int result = getRwNaturalPersonId() != null ? getRwNaturalPersonId().hashCode() : 0;
+        result = 31 * result + (getRequirementsWrapper() != null ? getRequirementsWrapper().hashCode() : 0);
+        result = 31 * result + (getDecisionId() != null ? getDecisionId().hashCode() : 0);
+        return result;
     }
 }

@@ -9,10 +9,8 @@ import org.mapstruct.factory.Mappers;
 
 import java.util.List;
 
-@Mapper(uses = IRequirementsWrapperMapper.class)
+@Mapper(componentModel = "spring",uses = IRequirementsWrapperMapper.class)
 public interface IRWNaturalPersonMapper {
-
-    IRWNaturalPersonMapper INSTANCE = Mappers.getMapper(IRWNaturalPersonMapper.class);
 
     // todo add mapping needed for RWNaturalPerson and RWNaturalPerson dto differences
     RWNaturalPersonDTO rwNatPerTorwNatPerDTO(RWNaturalPerson rwNaturalPerson);

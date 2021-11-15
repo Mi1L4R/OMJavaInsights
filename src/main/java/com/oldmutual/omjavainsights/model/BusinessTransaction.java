@@ -66,13 +66,21 @@ public class BusinessTransaction {
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;
-        if (o == null || Hibernate.getClass(this) != Hibernate.getClass(o)) return false;
+        if (!(o instanceof BusinessTransaction)) return false;
+
         BusinessTransaction that = (BusinessTransaction) o;
-        return businessTransactionId != null && Objects.equals(businessTransactionId, that.businessTransactionId);
+
+        if (getBusinessTransactionId() != null ? !getBusinessTransactionId().equals(that.getBusinessTransactionId()) : that.getBusinessTransactionId() != null)
+            return false;
+        if (getParties() != null ? !getParties().equals(that.getParties()) : that.getParties() != null) return false;
+        return getContracts() != null ? getContracts().equals(that.getContracts()) : that.getContracts() == null;
     }
 
     @Override
     public int hashCode() {
-        return 0;
+        int result = getBusinessTransactionId() != null ? getBusinessTransactionId().hashCode() : 0;
+        result = 31 * result + (getParties() != null ? getParties().hashCode() : 0);
+        result = 31 * result + (getContracts() != null ? getContracts().hashCode() : 0);
+        return result;
     }
 }

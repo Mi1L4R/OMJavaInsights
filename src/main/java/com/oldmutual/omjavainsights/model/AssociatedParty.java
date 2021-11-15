@@ -33,13 +33,19 @@ public class AssociatedParty {
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;
-        if (o == null || Hibernate.getClass(this) != Hibernate.getClass(o)) return false;
+        if (!(o instanceof AssociatedParty)) return false;
+
         AssociatedParty that = (AssociatedParty) o;
-        return associatedPartyId != null && Objects.equals(associatedPartyId, that.associatedPartyId);
+
+        if (getAssociatedPartyId() != null ? !getAssociatedPartyId().equals(that.getAssociatedPartyId()) : that.getAssociatedPartyId() != null)
+            return false;
+        return getParty() != null ? getParty().equals(that.getParty()) : that.getParty() == null;
     }
 
     @Override
     public int hashCode() {
-        return 0;
+        int result = getAssociatedPartyId() != null ? getAssociatedPartyId().hashCode() : 0;
+        result = 31 * result + (getParty() != null ? getParty().hashCode() : 0);
+        return result;
     }
 }

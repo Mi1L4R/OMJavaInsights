@@ -9,8 +9,11 @@ import com.oldmutual.omjavainsights.repositories.IProductRepository;
 import com.oldmutual.omjavainsights.services.interfaces.IProductService;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
+import org.junit.jupiter.api.extension.ExtendWith;
+import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.MockitoAnnotations;
+import org.mockito.junit.jupiter.MockitoExtension;
 
 import java.util.Arrays;
 import java.util.Date;
@@ -19,6 +22,7 @@ import java.util.Optional;
 import static org.junit.jupiter.api.Assertions.*;
 import static org.mockito.Mockito.when;
 
+@ExtendWith(MockitoExtension.class)
 class ProductServiceTest {
 
     public static final Long ID = 1L;
@@ -47,17 +51,19 @@ class ProductServiceTest {
             .naturalPerson(NaturalPerson.builder().naturalPersonId(1L).build())
             .build();
 
-    IProductService productService;
+    @InjectMocks
+    ProductService productService;
 
     @Mock
     IProductRepository productRepository;
+
+    @InjectMocks
+    IProductMapper productMapper;
 
     @BeforeEach
     void setUp() {
 
         MockitoAnnotations.openMocks(this);
-
-        productService = new ProductService(IProductMapper.INSTANCE, productRepository);
     }
 
     @Test

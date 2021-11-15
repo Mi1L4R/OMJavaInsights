@@ -9,15 +9,27 @@ import com.oldmutual.omjavainsights.repositories.IContractRepository;
 import com.oldmutual.omjavainsights.services.interfaces.IContractService;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
+import org.junit.jupiter.api.extension.ExtendWith;
+import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.MockitoAnnotations;
+import org.mockito.Spy;
+import org.mockito.junit.jupiter.MockitoExtension;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.boot.test.context.SpringBootTest;
+import org.springframework.boot.test.mock.mockito.MockBean;
+import org.springframework.boot.test.mock.mockito.SpyBean;
+import org.springframework.test.context.junit.jupiter.SpringExtension;
 
 import java.util.*;
 
 import static org.junit.jupiter.api.Assertions.assertAll;
 import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.Mockito.when;
 
+@ExtendWith(SpringExtension.class)
+@SpringBootTest
 class ContractServiceTest {
 
     public static final Long ID = 1L;
@@ -43,22 +55,33 @@ class ContractServiceTest {
 
     //todo add Product for testing
 
-    IContractService contractService;
 
     @Mock
+    ContractService contractService;
+
+
+    @MockBean
     IContractRepository contractRepository;
+
+    //mappers
+    @SpyBean
+    IContractMapper contractMapper;
+
+    @SpyBean
+    IContractRoleMapper contractRoleMapper;
 
 
     @BeforeEach
     void setUp() {
 
         MockitoAnnotations.openMocks(this);
-
-        contractService = new ContractService(IContractMapper.INSTANCE, contractRepository);
+        contractService = new ContractService(contractMapper, contractRepository);
     }
 
     @Test
     void getContractById() {
+
+
 
         //given
         var contract = Contract.builder()
@@ -72,13 +95,12 @@ class ContractServiceTest {
         //when
         when(contractRepository.findById(1L)).thenReturn(Optional.of(contract));
         var contractDTO = contractService.getContractById(ID);
-
         //then
         assertAll("Assert that repo retrieved a Contract and successfully mapped it (Needs to map Lists as well)",
                 () -> assertEquals(ID, contractDTO.getContractId()),
                 () -> assertEquals(BUSINESSUNIT, contractDTO.getBusinessUnit()),
                 () -> assertEquals(CONTRACTSOURCE, contractDTO.getContractSource()),
-                () -> assertEquals(IContractRoleMapper.INSTANCE.contractRoleListToContractRoleDTOList(CONTRACT_ROLES), contractDTO.getContractRoles()),
+                () -> assertEquals(contractRoleMapper.contractRoleListToContractRoleDTOList(CONTRACT_ROLES), contractDTO.getContractRoles()),
                 () -> assertEquals(MODIFIEDON, contractDTO.getModifiedOn())
         );
 

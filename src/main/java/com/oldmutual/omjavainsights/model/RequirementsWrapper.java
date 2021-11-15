@@ -68,13 +68,40 @@ public class RequirementsWrapper {
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;
-        if (o == null || Hibernate.getClass(this) != Hibernate.getClass(o)) return false;
+        if (!(o instanceof RequirementsWrapper)) return false;
+
         RequirementsWrapper that = (RequirementsWrapper) o;
-        return requirementsWrapperId != null && Objects.equals(requirementsWrapperId, that.requirementsWrapperId);
+
+        if (getRequirementsWrapperId() != null ? !getRequirementsWrapperId().equals(that.getRequirementsWrapperId()) : that.getRequirementsWrapperId() != null)
+            return false;
+        if (getRoleInTransaction() != null ? !getRoleInTransaction().equals(that.getRoleInTransaction()) : that.getRoleInTransaction() != null)
+            return false;
+        if (getFullRequirements() != null ? !getFullRequirements().equals(that.getFullRequirements()) : that.getFullRequirements() != null)
+            return false;
+        if (getPartyCategorization() != null ? !getPartyCategorization().equals(that.getPartyCategorization()) : that.getPartyCategorization() != null)
+            return false;
+        if (getRequirementsOutput() != null ? !getRequirementsOutput().equals(that.getRequirementsOutput()) : that.getRequirementsOutput() != null)
+            return false;
+        if (getRiskRatingDoneForActiveTransactions() != null ? !getRiskRatingDoneForActiveTransactions().equals(that.getRiskRatingDoneForActiveTransactions()) : that.getRiskRatingDoneForActiveTransactions() != null)
+            return false;
+        if (getScreeningDoneForActiveTransactions() != null ? !getScreeningDoneForActiveTransactions().equals(that.getScreeningDoneForActiveTransactions()) : that.getScreeningDoneForActiveTransactions() != null)
+            return false;
+        if (getHadMarkers() != null ? !getHadMarkers().equals(that.getHadMarkers()) : that.getHadMarkers() != null)
+            return false;
+        return getRwNaturalPerson() != null ? getRwNaturalPerson().equals(that.getRwNaturalPerson()) : that.getRwNaturalPerson() == null;
     }
 
     @Override
     public int hashCode() {
-        return 0;
+        int result = getRequirementsWrapperId() != null ? getRequirementsWrapperId().hashCode() : 0;
+        result = 31 * result + (getRoleInTransaction() != null ? getRoleInTransaction().hashCode() : 0);
+        result = 31 * result + (getFullRequirements() != null ? getFullRequirements().hashCode() : 0);
+        result = 31 * result + (getPartyCategorization() != null ? getPartyCategorization().hashCode() : 0);
+        result = 31 * result + (getRequirementsOutput() != null ? getRequirementsOutput().hashCode() : 0);
+        result = 31 * result + (getRiskRatingDoneForActiveTransactions() != null ? getRiskRatingDoneForActiveTransactions().hashCode() : 0);
+        result = 31 * result + (getScreeningDoneForActiveTransactions() != null ? getScreeningDoneForActiveTransactions().hashCode() : 0);
+        result = 31 * result + (getHadMarkers() != null ? getHadMarkers().hashCode() : 0);
+        result = 31 * result + (getRwNaturalPerson() != null ? getRwNaturalPerson().hashCode() : 0);
+        return result;
     }
 }

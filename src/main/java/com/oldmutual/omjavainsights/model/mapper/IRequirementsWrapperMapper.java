@@ -9,13 +9,11 @@ import org.mapstruct.factory.Mappers;
 
 import java.util.List;
 
-@Mapper(uses = {
+@Mapper(componentModel = "spring",uses = {
         IRequirementMapper.class,
         IRoleMapper.class
 })
 public interface IRequirementsWrapperMapper {
-
-    IRequirementsWrapperMapper INSTANCE = Mappers.getMapper(IRequirementsWrapperMapper.class);
 
     // todo add mapping needed for contract and contract dto
     RequirementsWrapperDTO rwTorwDTO(RequirementsWrapper requirementsWrapper);

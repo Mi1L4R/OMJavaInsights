@@ -53,13 +53,30 @@ public class Party {  //Doesn't exist in Rules Model on ODM, Added for convenien
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;
-        if (o == null || Hibernate.getClass(this) != Hibernate.getClass(o)) return false;
+        if (!(o instanceof Party)) return false;
+
         Party party = (Party) o;
-        return lisId != null && Objects.equals(lisId, party.lisId);
+
+        if (getLisId() != null ? !getLisId().equals(party.getLisId()) : party.getLisId() != null) return false;
+        if (getPartyType() != null ? !getPartyType().equals(party.getPartyType()) : party.getPartyType() != null)
+            return false;
+        if (getContractRoles() != null ? !getContractRoles().equals(party.getContractRoles()) : party.getContractRoles() != null)
+            return false;
+        if (getNaturalPerson() != null ? !getNaturalPerson().equals(party.getNaturalPerson()) : party.getNaturalPerson() != null)
+            return false;
+        if (getAssociatedParties() != null ? !getAssociatedParties().equals(party.getAssociatedParties()) : party.getAssociatedParties() != null)
+            return false;
+        return getBusinessTransactions() != null ? getBusinessTransactions().equals(party.getBusinessTransactions()) : party.getBusinessTransactions() == null;
     }
 
     @Override
     public int hashCode() {
-        return 0;
+        int result = getLisId() != null ? getLisId().hashCode() : 0;
+        result = 31 * result + (getPartyType() != null ? getPartyType().hashCode() : 0);
+        result = 31 * result + (getContractRoles() != null ? getContractRoles().hashCode() : 0);
+        result = 31 * result + (getNaturalPerson() != null ? getNaturalPerson().hashCode() : 0);
+        result = 31 * result + (getAssociatedParties() != null ? getAssociatedParties().hashCode() : 0);
+        result = 31 * result + (getBusinessTransactions() != null ? getBusinessTransactions().hashCode() : 0);
+        return result;
     }
 }

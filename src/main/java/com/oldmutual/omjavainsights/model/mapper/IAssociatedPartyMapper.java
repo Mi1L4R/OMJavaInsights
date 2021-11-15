@@ -9,10 +9,8 @@ import org.mapstruct.factory.Mappers;
 
 import java.util.List;
 
-@Mapper(uses = IPartyMapper.class)
+@Mapper(componentModel = "spring",uses = IPartyMapper.class)
 public interface IAssociatedPartyMapper {
-
-    IAssociatedPartyMapper INSTANCE = Mappers.getMapper(IAssociatedPartyMapper.class);
 
     // todo add mapping needed for associatedParty and associatedParty dto
     AssociatedPartyDTO assPartyToAssPartyDTO(AssociatedParty associatedParty);

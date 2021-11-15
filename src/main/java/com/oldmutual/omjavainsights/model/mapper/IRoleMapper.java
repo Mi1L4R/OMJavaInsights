@@ -9,10 +9,8 @@ import org.mapstruct.factory.Mappers;
 
 import java.util.List;
 
-@Mapper
+@Mapper(componentModel = "spring")
 public interface IRoleMapper {
-
-    IRoleMapper INSTANCE = Mappers.getMapper(IRoleMapper.class);
 
     // todo add mapping needed for Role and Role dto differences
     RoleDTO roleToRoleDTO(Role role);

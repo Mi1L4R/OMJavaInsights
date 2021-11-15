@@ -7,13 +7,11 @@ import org.mapstruct.factory.Mappers;
 
 import java.util.List;
 
-@Mapper(uses = {
+@Mapper(componentModel = "spring",uses = {
         IContractRoleMapper.class,
         IProductMapper.class
 })
 public interface IContractMapper {
-
-    IContractMapper INSTANCE = Mappers.getMapper(IContractMapper.class);
 
     // todo add mapping needed for contract and contract dto
     ContractDTO contractToContractDTO(Contract contract);

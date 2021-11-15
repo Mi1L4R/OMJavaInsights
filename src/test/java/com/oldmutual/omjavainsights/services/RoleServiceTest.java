@@ -6,8 +6,12 @@ import com.oldmutual.omjavainsights.repositories.IRoleRepository;
 import com.oldmutual.omjavainsights.services.interfaces.IRoleService;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
+import org.junit.jupiter.api.extension.ExtendWith;
+import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.MockitoAnnotations;
+import org.mockito.Spy;
+import org.mockito.junit.jupiter.MockitoExtension;
 
 import javax.swing.text.html.Option;
 
@@ -16,6 +20,7 @@ import java.util.Optional;
 import static org.junit.jupiter.api.Assertions.*;
 import static org.mockito.Mockito.when;
 
+@ExtendWith(MockitoExtension.class)
 class RoleServiceTest {
 
     public static final Long ID = 1L;
@@ -24,17 +29,19 @@ class RoleServiceTest {
     public static final String SCREENINGROLE= "Screening Role";
     public static final String DETNATIONALITY= "South African";
 
-    IRoleService roleService;
+    @InjectMocks
+    RoleService roleService;
 
     @Mock
     IRoleRepository roleRepository;
+
+    @Spy
+    IRoleMapper roleMapper;
 
     @BeforeEach
     void setUp(){
 
         MockitoAnnotations.openMocks(this);
-
-        roleService = new RoleService(IRoleMapper.INSTANCE, roleRepository);
     }
 
     @Test

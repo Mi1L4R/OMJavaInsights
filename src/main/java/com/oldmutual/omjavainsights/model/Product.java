@@ -62,13 +62,49 @@ public class Product {
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;
-        if (o == null || Hibernate.getClass(this) != Hibernate.getClass(o)) return false;
+        if (!(o instanceof Product)) return false;
+
         Product product = (Product) o;
-        return productId != null && Objects.equals(productId, product.productId);
+
+        if (getProductId() != null ? !getProductId().equals(product.getProductId()) : product.getProductId() != null)
+            return false;
+        if (getProductCode() != null ? !getProductCode().equals(product.getProductCode()) : product.getProductCode() != null)
+            return false;
+        if (getProductType() != null ? !getProductType().equals(product.getProductType()) : product.getProductType() != null)
+            return false;
+        if (getPolicyNumber() != null ? !getPolicyNumber().equals(product.getPolicyNumber()) : product.getPolicyNumber() != null)
+            return false;
+        if (getPolicyFee() != null ? !getPolicyFee().equals(product.getPolicyFee()) : product.getPolicyFee() != null)
+            return false;
+        if (getPaymentMode() != null ? !getPaymentMode().equals(product.getPaymentMode()) : product.getPaymentMode() != null)
+            return false;
+        if (getAmlProductCategoryBelowThreshold() != null ? !getAmlProductCategoryBelowThreshold().equals(product.getAmlProductCategoryBelowThreshold()) : product.getAmlProductCategoryBelowThreshold() != null)
+            return false;
+        if (getStartDate() != null ? !getStartDate().equals(product.getStartDate()) : product.getStartDate() != null)
+            return false;
+        if (getEndDate() != null ? !getEndDate().equals(product.getEndDate()) : product.getEndDate() != null)
+            return false;
+        if (getPremium() != null ? !getPremium().equals(product.getPremium()) : product.getPremium() != null)
+            return false;
+        if (getPremiumFrequency() != null ? !getPremiumFrequency().equals(product.getPremiumFrequency()) : product.getPremiumFrequency() != null)
+            return false;
+        return getContract() != null ? getContract().equals(product.getContract()) : product.getContract() == null;
     }
 
     @Override
     public int hashCode() {
-        return 0;
+        int result = getProductId() != null ? getProductId().hashCode() : 0;
+        result = 31 * result + (getProductCode() != null ? getProductCode().hashCode() : 0);
+        result = 31 * result + (getProductType() != null ? getProductType().hashCode() : 0);
+        result = 31 * result + (getPolicyNumber() != null ? getPolicyNumber().hashCode() : 0);
+        result = 31 * result + (getPolicyFee() != null ? getPolicyFee().hashCode() : 0);
+        result = 31 * result + (getPaymentMode() != null ? getPaymentMode().hashCode() : 0);
+        result = 31 * result + (getAmlProductCategoryBelowThreshold() != null ? getAmlProductCategoryBelowThreshold().hashCode() : 0);
+        result = 31 * result + (getStartDate() != null ? getStartDate().hashCode() : 0);
+        result = 31 * result + (getEndDate() != null ? getEndDate().hashCode() : 0);
+        result = 31 * result + (getPremium() != null ? getPremium().hashCode() : 0);
+        result = 31 * result + (getPremiumFrequency() != null ? getPremiumFrequency().hashCode() : 0);
+        result = 31 * result + (getContract() != null ? getContract().hashCode() : 0);
+        return result;
     }
 }

@@ -9,10 +9,8 @@ import org.mapstruct.factory.Mappers;
 
 import java.util.List;
 
-@Mapper
+@Mapper(componentModel = "spring")
 public interface IScreeningMapper {
-
-    IScreeningMapper INSTANCE = Mappers.getMapper(IScreeningMapper.class);
 
     // todo add mapping needed for Screening and Screening dto differences
     ScreeningDTO screeningToScreeningDTO(Screening screening);

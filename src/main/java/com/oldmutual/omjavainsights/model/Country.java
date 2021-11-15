@@ -50,13 +50,40 @@ public class Country {
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;
-        if (o == null || Hibernate.getClass(this) != Hibernate.getClass(o)) return false;
+        if (!(o instanceof Country)) return false;
+
         Country country = (Country) o;
-        return countryId != null && Objects.equals(countryId, country.countryId);
+
+        if (getCountryId() != null ? !getCountryId().equals(country.getCountryId()) : country.getCountryId() != null)
+            return false;
+        if (getCountryCode() != null ? !getCountryCode().equals(country.getCountryCode()) : country.getCountryCode() != null)
+            return false;
+        if (getCountryClassification() != null ? !getCountryClassification().equals(country.getCountryClassification()) : country.getCountryClassification() != null)
+            return false;
+        if (getAddress() != null ? !getAddress().equals(country.getAddress()) : country.getAddress() != null)
+            return false;
+        if (getIdentificationDetail() != null ? !getIdentificationDetail().equals(country.getIdentificationDetail()) : country.getIdentificationDetail() != null)
+            return false;
+        if (getRequirement() != null ? !getRequirement().equals(country.getRequirement()) : country.getRequirement() != null)
+            return false;
+        if (getTaxResidency() != null ? !getTaxResidency().equals(country.getTaxResidency()) : country.getTaxResidency() != null)
+            return false;
+        if (getNaturalPersonCOB() != null ? !getNaturalPersonCOB().equals(country.getNaturalPersonCOB()) : country.getNaturalPersonCOB() != null)
+            return false;
+        return getNaturalPersonCOR() != null ? getNaturalPersonCOR().equals(country.getNaturalPersonCOR()) : country.getNaturalPersonCOR() == null;
     }
 
     @Override
     public int hashCode() {
-        return 0;
+        int result = getCountryId() != null ? getCountryId().hashCode() : 0;
+        result = 31 * result + (getCountryCode() != null ? getCountryCode().hashCode() : 0);
+        result = 31 * result + (getCountryClassification() != null ? getCountryClassification().hashCode() : 0);
+        result = 31 * result + (getAddress() != null ? getAddress().hashCode() : 0);
+        result = 31 * result + (getIdentificationDetail() != null ? getIdentificationDetail().hashCode() : 0);
+        result = 31 * result + (getRequirement() != null ? getRequirement().hashCode() : 0);
+        result = 31 * result + (getTaxResidency() != null ? getTaxResidency().hashCode() : 0);
+        result = 31 * result + (getNaturalPersonCOB() != null ? getNaturalPersonCOB().hashCode() : 0);
+        result = 31 * result + (getNaturalPersonCOR() != null ? getNaturalPersonCOR().hashCode() : 0);
+        return result;
     }
 }

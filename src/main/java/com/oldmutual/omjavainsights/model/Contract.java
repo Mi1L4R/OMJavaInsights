@@ -51,11 +51,13 @@ public class Contract {
     @ManyToOne(fetch = FetchType.LAZY)
     private NaturalPerson naturalPerson;
 
+    @ManyToMany(mappedBy = "contracts")
+    private List<BusinessTransaction> businessTransactions;
+
     @Column(name = "ModifiedOn")
     private Date modifiedOn;
 
-    @ManyToMany(mappedBy = "contracts")
-    private List<BusinessTransaction> businessTransactions;
+
 
 
     public Contract() {
@@ -84,13 +86,49 @@ public class Contract {
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;
-        if (o == null || Hibernate.getClass(this) != Hibernate.getClass(o)) return false;
+        if (!(o instanceof Contract)) return false;
+
         Contract contract = (Contract) o;
-        return contractId != null && Objects.equals(contractId, contract.contractId);
+
+        if (getContractId() != null ? !getContractId().equals(contract.getContractId()) : contract.getContractId() != null)
+            return false;
+        if (getBusinessUnit() != null ? !getBusinessUnit().equals(contract.getBusinessUnit()) : contract.getBusinessUnit() != null)
+            return false;
+        if (getContractSource() != null ? !getContractSource().equals(contract.getContractSource()) : contract.getContractSource() != null)
+            return false;
+        if (getPremium() != null ? !getPremium().equals(contract.getPremium()) : contract.getPremium() != null)
+            return false;
+        if (getPremiumFrequency() != null ? !getPremiumFrequency().equals(contract.getPremiumFrequency()) : contract.getPremiumFrequency() != null)
+            return false;
+        if (getStartDate() != null ? !getStartDate().equals(contract.getStartDate()) : contract.getStartDate() != null)
+            return false;
+        if (getEndDate() != null ? !getEndDate().equals(contract.getEndDate()) : contract.getEndDate() != null)
+            return false;
+        if (getProducts() != null ? !getProducts().equals(contract.getProducts()) : contract.getProducts() != null)
+            return false;
+        if (getContractRoles() != null ? !getContractRoles().equals(contract.getContractRoles()) : contract.getContractRoles() != null)
+            return false;
+        if (getNaturalPerson() != null ? !getNaturalPerson().equals(contract.getNaturalPerson()) : contract.getNaturalPerson() != null)
+            return false;
+        if (getBusinessTransactions() != null ? !getBusinessTransactions().equals(contract.getBusinessTransactions()) : contract.getBusinessTransactions() != null)
+            return false;
+        return getModifiedOn() != null ? getModifiedOn().equals(contract.getModifiedOn()) : contract.getModifiedOn() == null;
     }
 
     @Override
     public int hashCode() {
-        return 0;
+        int result = getContractId() != null ? getContractId().hashCode() : 0;
+        result = 31 * result + (getBusinessUnit() != null ? getBusinessUnit().hashCode() : 0);
+        result = 31 * result + (getContractSource() != null ? getContractSource().hashCode() : 0);
+        result = 31 * result + (getPremium() != null ? getPremium().hashCode() : 0);
+        result = 31 * result + (getPremiumFrequency() != null ? getPremiumFrequency().hashCode() : 0);
+        result = 31 * result + (getStartDate() != null ? getStartDate().hashCode() : 0);
+        result = 31 * result + (getEndDate() != null ? getEndDate().hashCode() : 0);
+        result = 31 * result + (getProducts() != null ? getProducts().hashCode() : 0);
+        result = 31 * result + (getContractRoles() != null ? getContractRoles().hashCode() : 0);
+        result = 31 * result + (getNaturalPerson() != null ? getNaturalPerson().hashCode() : 0);
+        result = 31 * result + (getBusinessTransactions() != null ? getBusinessTransactions().hashCode() : 0);
+        result = 31 * result + (getModifiedOn() != null ? getModifiedOn().hashCode() : 0);
+        return result;
     }
 }

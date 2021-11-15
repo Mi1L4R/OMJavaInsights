@@ -6,8 +6,12 @@ import com.oldmutual.omjavainsights.repositories.INaturalPersonRepository;
 import com.oldmutual.omjavainsights.services.interfaces.INaturalPersonService;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
+import org.junit.jupiter.api.extension.ExtendWith;
+import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.MockitoAnnotations;
+import org.mockito.Spy;
+import org.mockito.junit.jupiter.MockitoExtension;
 
 import javax.swing.text.html.Option;
 import java.util.*;
@@ -15,12 +19,13 @@ import java.util.*;
 import static org.junit.jupiter.api.Assertions.*;
 import static org.mockito.Mockito.when;
 
+@ExtendWith(MockitoExtension.class)
 class NaturalPersonServiceTest {
 
     public static final Long ID = 1L;
     public static final List<DHAVerification> DHA_VERIFICATIONS = Arrays.asList(
             DHAVerification.builder()
-                    .dhaVerificationId(1)
+                    .dhaVerificationId(1L)
                     .dhaIdNumber("123456")
                     .dhaFirstNames("firstName1_1,firstname1_2")
                     .dhaLastName("LastName1")
@@ -29,7 +34,7 @@ class NaturalPersonServiceTest {
                     .dhaDateReceived(new Date())
                     .build(),
             DHAVerification.builder()
-                    .dhaVerificationId(2)
+                    .dhaVerificationId(2L)
                     .dhaIdNumber("654321")
                     .dhaFirstNames("firstName2_1,firstname2_2")
                     .dhaLastName("LastName2")
@@ -48,7 +53,7 @@ class NaturalPersonServiceTest {
                     .city("CITY_1")
                     .postalCode("POSTALCODE_1")
                     .country(Country.builder()
-                            .countryId(1)
+                            .countryId(1L)
                             .countryClassification("classified1")
                             .countryCode("code1")
                             .build())
@@ -65,7 +70,7 @@ class NaturalPersonServiceTest {
                     .city("CITY_2")
                     .postalCode("POSTALCODE_2")
                     .country(Country.builder()
-                            .countryId(2)
+                            .countryId(2L)
                             .countryClassification("classified2")
                             .countryCode("code2")
                             .build())
@@ -76,7 +81,7 @@ class NaturalPersonServiceTest {
     );
     public static final List<ContactDetail> CONTACT_DETAILS = Arrays.asList(
             ContactDetail.builder()
-                    .contactDetailId(1)
+                    .contactDetailId(1L)
                     .contactType("CONTACTTYPE_1")
                     .countryCode("COUNTRYCODE_1")
                     .areaCode("AREACODE_1")
@@ -84,7 +89,7 @@ class NaturalPersonServiceTest {
                     .phoneNumber("PHONENUMBER_1")
                     .build(),
             ContactDetail.builder()
-                    .contactDetailId(2)
+                    .contactDetailId(2L)
                     .contactType("CONTACTTYPE_2")
                     .countryCode("COUNTRYCODE_2")
                     .areaCode("AREACODE_2")
@@ -94,32 +99,29 @@ class NaturalPersonServiceTest {
     );
     public static final List<Contract> CONTRACTS = Arrays.asList(
             Contract.builder()
-                    .contractId(1)
-                    .productCode("PRODUCTCODE_1")
-                    .policyNumber("POLICYNUMBER_1")
+                    .contractId(1L)
                     .businessUnit("BUSINESSUNIT_1")
                     .contractSource("CONTRACTSOURCE_1")
-                    .amlProductCategoryBelowThreshold("AMLPCBT_1")
                     .contractRoles(Arrays.asList(
                                     ContractRole.builder()
-                                            .contractRoleId(1)
+                                            .contractRoleId(1L)
                                             .roleDescription("RoleDescription1")
                                             .party(Party.builder().lisId("12345678EFG").partyType("Type1").build())
                                             .build(),
                                     ContractRole.builder()
-                                            .contractRoleId(2)
+                                            .contractRoleId(2L)
                                             .roleDescription("RoleDescription2")
                                             .party(Party.builder().lisId("384384HVUVHH").partyType("Type2").build())
                                             .build()))
                     .modifiedOn(new Date())
                     .build());
     public static final Country COUNTRYOFBIRTH = Country.builder()
-            .countryId(1)
+            .countryId(1L)
             .countryCode("CountryOfBirthCode")
             .countryClassification("ClassificationOfBirth")
             .build();
     public static final Country COUNTRYOFRES = Country.builder()
-            .countryId(2)
+            .countryId(2L)
             .countryCode("CountryOfResidence")
             .countryClassification("ClassificationOfResidence")
             .build();
@@ -133,11 +135,11 @@ class NaturalPersonServiceTest {
     public static final String GENDER = "Male";
     public static final List<IdentificationDetail> IDENTIFICATION_DETAILS = Arrays.asList(
             IdentificationDetail.builder()
-                    .identificationDetailId(1)
+                    .identificationDetailId(1L)
                     .idNumber("IDNUMBER_1")
                     .idType("IDTYPE_1")
                     .countryOfIssue(Country.builder()
-                            .countryId(1)
+                            .countryId(1L)
                             .countryCode("CountryCode1")
                             .countryClassification("Classification1")
                             .build())
@@ -146,11 +148,11 @@ class NaturalPersonServiceTest {
                     .modifiedOn(new Date())
                     .build(),
             IdentificationDetail.builder()
-                    .identificationDetailId(2)
+                    .identificationDetailId(2L)
                     .idNumber("IDNUMBER_2")
                     .idType("IDTYPE_2")
                     .countryOfIssue(Country.builder()
-                            .countryId(2)
+                            .countryId(2L)
                             .countryCode("CountryCode2")
                             .countryClassification("Classification2")
                             .build())
@@ -196,7 +198,7 @@ class NaturalPersonServiceTest {
             TaxResidency.builder()
                     .taxResidencyId(1L)
                     .countryOfTaxResidency(Country.builder()
-                            .countryId(1)
+                            .countryId(1L)
                             .countryCode("CountryCode1")
                             .countryClassification("Classification1")
                             .build())
@@ -208,7 +210,7 @@ class NaturalPersonServiceTest {
             TaxResidency.builder()
                     .taxResidencyId(2L)
                     .countryOfTaxResidency(Country.builder()
-                            .countryId(2)
+                            .countryId(2L)
                             .countryCode("CountryCode2")
                             .countryClassification("Classification2")
                             .build())
@@ -243,7 +245,7 @@ class NaturalPersonServiceTest {
                     .requirementId(1L)
                     .status("STATUS")
                     .country(Country.builder()
-                            .countryId(1)
+                            .countryId(1L)
                             .countryCode("CountryCode1")
                             .countryClassification("Classification1")
                             .build())
@@ -259,7 +261,7 @@ class NaturalPersonServiceTest {
                     .requirementId(1L)
                     .status("STATUS")
                     .country(Country.builder()
-                            .countryId(1)
+                            .countryId(1L)
                             .countryCode("CountryCode1")
                             .countryClassification("Classification1")
                             .build())
@@ -278,17 +280,20 @@ class NaturalPersonServiceTest {
             .build();
     public static final Integer TOTRISKRATING = 10000;
 
-    INaturalPersonService naturalPersonService;
+
+    @InjectMocks
+    NaturalPersonService naturalPersonService;
 
     @Mock
     INaturalPersonRepository naturalPersonRepository;
+
+    @Spy
+    INaturalPersonMapper naturalPersonMapper;
 
     @BeforeEach
     void setUp() {
 
         MockitoAnnotations.openMocks(this);
-
-        naturalPersonService = new NaturalPersonService(INaturalPersonMapper.INSTANCE, naturalPersonRepository);
     }
 
     @Test
@@ -331,12 +336,12 @@ class NaturalPersonServiceTest {
         //then
         assertAll("Assert that repo retrieved a party and successfully mapped it (Including List mapping)",
                 () -> assertEquals(ID, naturalPersonDTO.getNaturalPersonId()),
-                () -> assertEquals(IDHAVerificationMapper.INSTANCE.dhaListTodhaDTOList(DHA_VERIFICATIONS), naturalPersonDTO.getDhaVerifications()),
-                () -> assertEquals(IAddressMapper.INSTANCE.addressListToAddressListDTO(ADDRESSES), naturalPersonDTO.getAddresses()),
-                () -> assertEquals(IContactDetailMapper.INSTANCE.cDetailListToCDetailDTOList(CONTACT_DETAILS), naturalPersonDTO.getContactDetails()),
-                () -> assertEquals(IContractMapper.INSTANCE.contractListToContractListDTO(CONTRACTS), naturalPersonDTO.getContracts()),
-                () -> assertEquals(ICountryMapper.INSTANCE.countryToCountryDTO(COUNTRYOFBIRTH), naturalPersonDTO.getCountryOfBirth()),
-                () -> assertEquals(ICountryMapper.INSTANCE.countryToCountryDTO(COUNTRYOFRES), naturalPersonDTO.getCountryOfResidence()),
+                () -> assertEquals(DHA_VERIFICATIONS, naturalPersonDTO.getDhaVerifications()),
+                () -> assertEquals(ADDRESSES, naturalPersonDTO.getAddresses()),
+                () -> assertEquals(CONTACT_DETAILS, naturalPersonDTO.getContactDetails()),
+                () -> assertEquals(CONTRACTS, naturalPersonDTO.getContracts()),
+                () -> assertEquals(COUNTRYOFBIRTH, naturalPersonDTO.getCountryOfBirth()),
+                () -> assertEquals(COUNTRYOFRES, naturalPersonDTO.getCountryOfResidence()),
                 () -> assertEquals(DOB, naturalPersonDTO.getDateOfBirth()),
                 () -> assertEquals(DOD, naturalPersonDTO.getDateOfDeath()),
                 () -> assertEquals(EMPLEVEL, naturalPersonDTO.getEmployeeLevel()),
@@ -345,18 +350,17 @@ class NaturalPersonServiceTest {
                 () -> assertEquals(PREVFIRSTNAME, naturalPersonDTO.getPreviousFirstName()),
                 () -> assertEquals(PREVLASTNAME, naturalPersonDTO.getPreviousLastName()),
                 () -> assertEquals(GENDER, naturalPersonDTO.getGender()),
-                () -> assertEquals(IIdentificationDetailMapper.INSTANCE.idDetailListToIdDetailDTOList(IDENTIFICATION_DETAILS), naturalPersonDTO.getIdentificationDetails()),
+                () -> assertEquals(IDENTIFICATION_DETAILS, naturalPersonDTO.getIdentificationDetails()),
                 () -> assertEquals(INDUSTRY, naturalPersonDTO.getIndustry()),
                 () -> assertEquals(NATIONALITY, naturalPersonDTO.getNationality()),
-                () -> assertEquals(IRoleMapper.INSTANCE.roleListToRoleDTOList(ROLES), naturalPersonDTO.getRoles()),
-                () -> assertEquals(IScreeningMapper.INSTANCE.screeningToScreeningDTO(SCREENING), naturalPersonDTO.getScreening()),
+                () -> assertEquals(ROLES, naturalPersonDTO.getRoles()),
+                () -> assertEquals(SCREENING, naturalPersonDTO.getScreening()),
                 () -> assertEquals(SRCOFINCOME, naturalPersonDTO.getSourceOfIncome()),
-                () -> assertEquals(ITaxResidencyMapper.INSTANCE.taxResListToTaxResDTOList(TAX_RESIDENCIES), naturalPersonDTO.getTaxResidencies()),
-                () -> assertEquals(IVerificationDocumentMapper.INSTANCE.verDocListToVerDocDTOList(VERIFICATION_DOCUMENTS), naturalPersonDTO.getVerificationDocuments()),
-                () -> assertEquals(IRequirementMapper.INSTANCE.requirementListToRequirementDTOList(REQUIREMENTS), naturalPersonDTO.getRequirements()),
-                () -> assertEquals(IPartyMapper.INSTANCE.partyToPartyDto(PARTY), naturalPersonDTO.getParty()),
+                () -> assertEquals(TAX_RESIDENCIES, naturalPersonDTO.getTaxResidencies()),
+                () -> assertEquals(VERIFICATION_DOCUMENTS, naturalPersonDTO.getVerificationDocuments()),
+                () -> assertEquals(REQUIREMENTS, naturalPersonDTO.getRequirements()),
+                () -> assertEquals(PARTY, naturalPersonDTO.getParty()),
                 () -> assertEquals(TOTRISKRATING, naturalPersonDTO.getTotalRiskRating()),
-                () -> assertEquals(INaturalPersonMapper.INSTANCE.natPerDTOToNatPer(naturalPersonDTO), naturalPerson)
         );
     }
 }

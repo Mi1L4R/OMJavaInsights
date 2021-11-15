@@ -7,32 +7,39 @@ import com.oldmutual.omjavainsights.repositories.IContractRoleRepository;
 import com.oldmutual.omjavainsights.services.interfaces.IContractRoleService;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
+import org.junit.jupiter.api.extension.ExtendWith;
+import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.MockitoAnnotations;
+import org.mockito.Spy;
+import org.mockito.junit.jupiter.MockitoExtension;
 
 import java.util.Optional;
 
 import static org.junit.jupiter.api.Assertions.*;
 import static org.mockito.Mockito.when;
 
+@ExtendWith(MockitoExtension.class)
 class ContractRoleServiceTest {
 
     public static final Long ID =1L;
     public static final String DESCRIPTION = "THis is a description";
     public static final Contract CONTRACT = Contract.builder().contractId(2L).build();
     //Todo Add Contract and Party to test
-
-    IContractRoleService contractRoleService;
+    @InjectMocks
+    ContractRoleService contractRoleService;
 
     @Mock
     IContractRoleRepository contractRoleRepository;
+
+    @Spy
+    IContractRoleMapper contractRoleMapper;
 
     @BeforeEach
     void setUp() {
 
         MockitoAnnotations.openMocks(this);
 
-        contractRoleService = new ContractRoleService(IContractRoleMapper.INSTANCE, contractRoleRepository);
     }
 
     @Test

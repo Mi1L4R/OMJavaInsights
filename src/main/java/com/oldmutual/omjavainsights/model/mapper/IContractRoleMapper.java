@@ -9,11 +9,8 @@ import org.mapstruct.factory.Mappers;
 
 import java.util.List;
 
-@Mapper(uses = IPartyMapper.class)
+@Mapper(componentModel = "spring",uses = IPartyMapper.class)
 public interface IContractRoleMapper {
-
-    IContractRoleMapper INSTANCE = Mappers.getMapper(IContractRoleMapper.class);
-
 
     // todo add mapping needed for contractRole and contractRole dto
     ContractRoleDTO contractRoleToContractRoleDTO(ContractRole contractRole);

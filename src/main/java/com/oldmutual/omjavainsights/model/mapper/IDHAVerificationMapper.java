@@ -13,10 +13,9 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 
-@Mapper
+@Mapper(componentModel = "spring")
 public interface IDHAVerificationMapper {
 
-    IDHAVerificationMapper INSTANCE = Mappers.getMapper(IDHAVerificationMapper.class);
 
     // todo add mapping needed for dhaVerification and dhaVerification dto differences
     DHAVerificationDTO dhaVerificationTodhaVerificationDTO(DHAVerification dhaVerification);

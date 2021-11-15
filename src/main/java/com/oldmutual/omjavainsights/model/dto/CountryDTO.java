@@ -13,6 +13,25 @@ public class CountryDTO {
     private String countryCode;
     private String countryClassification;
 
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (!(o instanceof CountryDTO)) return false;
 
+        CountryDTO that = (CountryDTO) o;
 
+        if (getCountryId() != null ? !getCountryId().equals(that.getCountryId()) : that.getCountryId() != null)
+            return false;
+        if (getCountryCode() != null ? !getCountryCode().equals(that.getCountryCode()) : that.getCountryCode() != null)
+            return false;
+        return getCountryClassification() != null ? getCountryClassification().equals(that.getCountryClassification()) : that.getCountryClassification() == null;
+    }
+
+    @Override
+    public int hashCode() {
+        int result = getCountryId() != null ? getCountryId().hashCode() : 0;
+        result = 31 * result + (getCountryCode() != null ? getCountryCode().hashCode() : 0);
+        result = 31 * result + (getCountryClassification() != null ? getCountryClassification().hashCode() : 0);
+        return result;
+    }
 }

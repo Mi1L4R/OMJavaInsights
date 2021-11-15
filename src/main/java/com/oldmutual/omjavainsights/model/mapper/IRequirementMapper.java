@@ -13,11 +13,8 @@ import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.List;
 
-@Mapper(uses = ICountryMapper.class)
+@Mapper(componentModel = "spring",uses = ICountryMapper.class)
 public interface IRequirementMapper {
-
-    IRequirementMapper INSTANCE = Mappers.getMapper(IRequirementMapper.class);
-
 
     // todo add mapping needed for requirement and requirement dto differences
     RequirementDTO requirementToRequirementDTO(Requirement requirement);

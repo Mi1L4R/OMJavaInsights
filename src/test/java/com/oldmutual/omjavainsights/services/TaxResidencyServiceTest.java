@@ -9,8 +9,12 @@ import com.oldmutual.omjavainsights.repositories.ITaxResidencyRepository;
 import com.oldmutual.omjavainsights.services.interfaces.ITaxResidencyService;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
+import org.junit.jupiter.api.extension.ExtendWith;
+import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.MockitoAnnotations;
+import org.mockito.Spy;
+import org.mockito.junit.jupiter.MockitoExtension;
 
 import java.util.Date;
 import java.util.Optional;
@@ -18,6 +22,7 @@ import java.util.Optional;
 import static org.junit.jupiter.api.Assertions.*;
 import static org.mockito.Mockito.when;
 
+@ExtendWith(MockitoExtension.class)
 class TaxResidencyServiceTest {
 
     private static final Long ID = 1L;
@@ -31,17 +36,19 @@ class TaxResidencyServiceTest {
     private static final String SCDREASON = "selfCertificationDeclarationReason";
     private static final Date SCDDATE = new Date();
 
-    ITaxResidencyService taxResidencyService;
+    @InjectMocks
+    TaxResidencyService taxResidencyService;
 
     @Mock
     ITaxResidencyRepository taxResidencyRepository;
+
+    @Spy
+    ITaxResidencyMapper taxResidencyMapper;
 
     @BeforeEach
     void setUp() {
 
         MockitoAnnotations.openMocks(this);
-
-        taxResidencyService = new TaxResidencyService(ITaxResidencyMapper.INSTANCE, taxResidencyRepository);
     }
 
     @Test
@@ -64,7 +71,7 @@ class TaxResidencyServiceTest {
         //then
         assertAll("Assert that repo retrieved a TaxResidency and successfully mapped it",
                 () -> assertEquals(ID, taxResDTO.getTaxResidencyId()),
-                () -> assertEquals(ICountryMapper.INSTANCE.countryToCountryDTO(COUNTRYOFTR), taxResDTO.getCountryOfTaxResidency()),
+                () -> assertEquals(COUNTRYOFTR, taxResDTO.getCountryOfTaxResidency()),
                 () -> assertEquals(COUNTRYOFTAXREFNUMBER, taxResDTO.getCountryOfTaxReferenceNumber()),
                 () -> assertEquals(IDENTIFICATIONNUM, taxResDTO.getTaxIdentificationNumber()),
                 () -> assertEquals(SCDREASON, taxResDTO.getSelfCertificationDeclarationReason()),

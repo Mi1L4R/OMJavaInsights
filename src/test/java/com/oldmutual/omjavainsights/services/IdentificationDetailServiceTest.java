@@ -8,8 +8,12 @@ import com.oldmutual.omjavainsights.repositories.IIdentificationDetailRepository
 import com.oldmutual.omjavainsights.services.interfaces.IIdentificationDetailService;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
+import org.junit.jupiter.api.extension.ExtendWith;
+import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.MockitoAnnotations;
+import org.mockito.Spy;
+import org.mockito.junit.jupiter.MockitoExtension;
 
 import java.util.Date;
 import java.util.Optional;
@@ -17,6 +21,7 @@ import java.util.Optional;
 import static org.junit.jupiter.api.Assertions.*;
 import static org.mockito.Mockito.when;
 
+@ExtendWith(MockitoExtension.class)
 class IdentificationDetailServiceTest {
 
     public static final Long ID =1L;
@@ -27,17 +32,19 @@ class IdentificationDetailServiceTest {
     public static final Date DATEOFEXPIRY = new Date();
     public static final Date MODIFIEDON = new Date();
 
-    IIdentificationDetailService identificationDetailService;
+    @InjectMocks
+    IdentificationDetailService identificationDetailService;
 
     @Mock
     IIdentificationDetailRepository identificationDetailRepository;
+
+    @Spy
+    IIdentificationDetailMapper identificationDetailMapper;
 
     @BeforeEach
     void setUp() {
 
         MockitoAnnotations.openMocks(this);
-
-        identificationDetailService = new IdentificationDetailService(IIdentificationDetailMapper.INSTANCE, identificationDetailRepository);
     }
 
     @Test
@@ -63,7 +70,7 @@ class IdentificationDetailServiceTest {
                 () -> assertEquals(ID, idDetailDTO.getIdentificationDetailId()),
                 () -> assertEquals(IDNUMBER, idDetailDTO.getIdNumber()),
                 () -> assertEquals(IDTYPE, idDetailDTO.getIdType()),
-                () -> assertEquals(ICountryMapper.INSTANCE.countryToCountryDTO(COUNTRYOFISSUE), idDetailDTO.getCountryOfIssue()),
+                () -> assertEquals(COUNTRYOFISSUE, idDetailDTO.getCountryOfIssue()),
                 () -> assertEquals(VISATYPE, idDetailDTO.getVisaPermitType()),
                 () -> assertEquals(DATEOFEXPIRY, idDetailDTO.getDateOfExpiry()),
                 () -> assertEquals(MODIFIEDON, idDetailDTO.getModifiedOn())

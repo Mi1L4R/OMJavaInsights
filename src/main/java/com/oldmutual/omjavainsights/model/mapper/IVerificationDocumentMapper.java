@@ -9,10 +9,8 @@ import org.mapstruct.factory.Mappers;
 
 import java.util.List;
 
-@Mapper
+@Mapper(componentModel = "spring")
 public interface IVerificationDocumentMapper {
-
-    IVerificationDocumentMapper INSTANCE = Mappers.getMapper(IVerificationDocumentMapper.class);
 
     // todo add mapping needed for VerificationDocument and VerificationDocument dto
     VerificationDocumentDTO verDocToVerDocDTO(VerificationDocument verificationDocument);

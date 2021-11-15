@@ -47,13 +47,34 @@ public class TaxResidency {
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;
-        if (o == null || Hibernate.getClass(this) != Hibernate.getClass(o)) return false;
+        if (!(o instanceof TaxResidency)) return false;
+
         TaxResidency that = (TaxResidency) o;
-        return taxResidencyId != null && Objects.equals(taxResidencyId, that.taxResidencyId);
+
+        if (getTaxResidencyId() != null ? !getTaxResidencyId().equals(that.getTaxResidencyId()) : that.getTaxResidencyId() != null)
+            return false;
+        if (getCountryOfTaxResidency() != null ? !getCountryOfTaxResidency().equals(that.getCountryOfTaxResidency()) : that.getCountryOfTaxResidency() != null)
+            return false;
+        if (getCountryOfTaxReferenceNumber() != null ? !getCountryOfTaxReferenceNumber().equals(that.getCountryOfTaxReferenceNumber()) : that.getCountryOfTaxReferenceNumber() != null)
+            return false;
+        if (getTaxIdentificationNumber() != null ? !getTaxIdentificationNumber().equals(that.getTaxIdentificationNumber()) : that.getTaxIdentificationNumber() != null)
+            return false;
+        if (getSelfCertificationDeclarationReason() != null ? !getSelfCertificationDeclarationReason().equals(that.getSelfCertificationDeclarationReason()) : that.getSelfCertificationDeclarationReason() != null)
+            return false;
+        if (getSelfCertificationDeclarationDate() != null ? !getSelfCertificationDeclarationDate().equals(that.getSelfCertificationDeclarationDate()) : that.getSelfCertificationDeclarationDate() != null)
+            return false;
+        return getNaturalPerson() != null ? getNaturalPerson().equals(that.getNaturalPerson()) : that.getNaturalPerson() == null;
     }
 
     @Override
     public int hashCode() {
-        return 0;
+        int result = getTaxResidencyId() != null ? getTaxResidencyId().hashCode() : 0;
+        result = 31 * result + (getCountryOfTaxResidency() != null ? getCountryOfTaxResidency().hashCode() : 0);
+        result = 31 * result + (getCountryOfTaxReferenceNumber() != null ? getCountryOfTaxReferenceNumber().hashCode() : 0);
+        result = 31 * result + (getTaxIdentificationNumber() != null ? getTaxIdentificationNumber().hashCode() : 0);
+        result = 31 * result + (getSelfCertificationDeclarationReason() != null ? getSelfCertificationDeclarationReason().hashCode() : 0);
+        result = 31 * result + (getSelfCertificationDeclarationDate() != null ? getSelfCertificationDeclarationDate().hashCode() : 0);
+        result = 31 * result + (getNaturalPerson() != null ? getNaturalPerson().hashCode() : 0);
+        return result;
     }
 }

@@ -9,10 +9,8 @@ import org.mapstruct.factory.Mappers;
 
 import java.util.List;
 
-@Mapper(uses = ICountryMapper.class)
+@Mapper(componentModel = "spring",uses = ICountryMapper.class)
 public interface IIdentificationDetailMapper {
-
-    IIdentificationDetailMapper INSTANCE = Mappers.getMapper(IIdentificationDetailMapper.class);
 
     // todo add mapping needed for IdentificationDetail and IdentificationDetail dto differences
     IdentificationDetailDTO idDetailToIdDetailDTO(IdentificationDetail identificationDetail);

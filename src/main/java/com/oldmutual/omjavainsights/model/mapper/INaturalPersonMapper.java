@@ -7,7 +7,7 @@ import org.mapstruct.factory.Mappers;
 
 import java.util.List;
 
-@Mapper(uses = {
+@Mapper(componentModel = "spring",uses = {
         IDHAVerificationMapper.class,
         IAddressMapper.class,
         IContactDetailMapper.class,
@@ -22,8 +22,6 @@ import java.util.List;
         IPartyMapper.class
 })
 public interface INaturalPersonMapper {
-
-    INaturalPersonMapper INSTANCE = Mappers.getMapper(INaturalPersonMapper.class);
 
     //Todo add actual mappings, as there is no difference for now between NaturalPerson and its DTO
     //@Mappings()

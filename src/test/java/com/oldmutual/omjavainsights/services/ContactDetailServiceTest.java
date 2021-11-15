@@ -7,8 +7,12 @@ import com.oldmutual.omjavainsights.repositories.IContactDetailRepository;
 import com.oldmutual.omjavainsights.services.interfaces.IContactDetailService;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
+import org.junit.jupiter.api.extension.ExtendWith;
+import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.MockitoAnnotations;
+import org.mockito.Spy;
+import org.mockito.junit.jupiter.MockitoExtension;
 
 import java.util.Date;
 import java.util.Optional;
@@ -16,6 +20,7 @@ import java.util.Optional;
 import static org.junit.jupiter.api.Assertions.*;
 import static org.mockito.Mockito.when;
 
+@ExtendWith(MockitoExtension.class)
 class ContactDetailServiceTest {
 
     public static final Long ID = 1L;
@@ -26,17 +31,19 @@ class ContactDetailServiceTest {
     public static final String PHONENUMBER = "0762779888";
     //public static final NaturalPerson NATURALPERSON = todo implementation of natural person
 
-    IContactDetailService contactDetailService;
+    @InjectMocks
+    ContactDetailService contactDetailService;
 
     @Mock
     IContactDetailRepository contactDetailRepository;
+
+    @Spy
+    IContactDetailMapper contactDetailMapper;
 
     @BeforeEach
     void setUp() {
 
         MockitoAnnotations.openMocks(this);
-
-        contactDetailService = new ContactDetailService(IContactDetailMapper.INSTANCE, contactDetailRepository);
     }
 
     @Test

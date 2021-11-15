@@ -49,13 +49,35 @@ public class VerificationDocument {
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;
-        if (o == null || Hibernate.getClass(this) != Hibernate.getClass(o)) return false;
+        if (!(o instanceof VerificationDocument)) return false;
+
         VerificationDocument that = (VerificationDocument) o;
-        return verificationDocumentId != null && Objects.equals(verificationDocumentId, that.verificationDocumentId);
+
+        if (getVerificationDocumentId() != null ? !getVerificationDocumentId().equals(that.getVerificationDocumentId()) : that.getVerificationDocumentId() != null)
+            return false;
+        if (getVerificationCategory() != null ? !getVerificationCategory().equals(that.getVerificationCategory()) : that.getVerificationCategory() != null)
+            return false;
+        if (getVerificationDocument() != null ? !getVerificationDocument().equals(that.getVerificationDocument()) : that.getVerificationDocument() != null)
+            return false;
+        if (getDocumentName() != null ? !getDocumentName().equals(that.getDocumentName()) : that.getDocumentName() != null)
+            return false;
+        if (getStatus() != null ? !getStatus().equals(that.getStatus()) : that.getStatus() != null) return false;
+        if (getEndDate() != null ? !getEndDate().equals(that.getEndDate()) : that.getEndDate() != null) return false;
+        if (getModifiedOn() != null ? !getModifiedOn().equals(that.getModifiedOn()) : that.getModifiedOn() != null)
+            return false;
+        return getNaturalPerson() != null ? getNaturalPerson().equals(that.getNaturalPerson()) : that.getNaturalPerson() == null;
     }
 
     @Override
     public int hashCode() {
-        return 0;
+        int result = getVerificationDocumentId() != null ? getVerificationDocumentId().hashCode() : 0;
+        result = 31 * result + (getVerificationCategory() != null ? getVerificationCategory().hashCode() : 0);
+        result = 31 * result + (getVerificationDocument() != null ? getVerificationDocument().hashCode() : 0);
+        result = 31 * result + (getDocumentName() != null ? getDocumentName().hashCode() : 0);
+        result = 31 * result + (getStatus() != null ? getStatus().hashCode() : 0);
+        result = 31 * result + (getEndDate() != null ? getEndDate().hashCode() : 0);
+        result = 31 * result + (getModifiedOn() != null ? getModifiedOn().hashCode() : 0);
+        result = 31 * result + (getNaturalPerson() != null ? getNaturalPerson().hashCode() : 0);
+        return result;
     }
 }

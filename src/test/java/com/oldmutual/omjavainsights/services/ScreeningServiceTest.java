@@ -6,8 +6,12 @@ import com.oldmutual.omjavainsights.repositories.IScreeningRepository;
 import com.oldmutual.omjavainsights.services.interfaces.IScreeningService;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
+import org.junit.jupiter.api.extension.ExtendWith;
+import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.MockitoAnnotations;
+import org.mockito.Spy;
+import org.mockito.junit.jupiter.MockitoExtension;
 
 import java.util.Date;
 import java.util.Optional;
@@ -15,6 +19,7 @@ import java.util.Optional;
 import static org.junit.jupiter.api.Assertions.*;
 import static org.mockito.Mockito.when;
 
+@ExtendWith(MockitoExtension.class)
 class ScreeningServiceTest {
 
     private static final Long ID = 1L;
@@ -30,17 +35,20 @@ class ScreeningServiceTest {
     private static final String SCREENINGRESULTTYPE = "screeningResultType";
     public static final Date MODIFIEDON = new Date();
 
-    IScreeningService screeningService;
+    @InjectMocks
+    ScreeningService screeningService;
 
     @Mock
     IScreeningRepository screeningRepository;
+
+    @Spy
+    IScreeningMapper screeningMapper;
 
     @BeforeEach
     void setUp() {
 
         MockitoAnnotations.openMocks(this);
 
-        screeningService = new ScreeningService(IScreeningMapper.INSTANCE, screeningRepository);
     }
 
     @Test
