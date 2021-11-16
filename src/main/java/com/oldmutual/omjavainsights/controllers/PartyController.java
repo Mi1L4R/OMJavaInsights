@@ -1,9 +1,12 @@
 package com.oldmutual.omjavainsights.controllers;
 
 import com.oldmutual.omjavainsights.model.BusinessTransaction;
+import com.oldmutual.omjavainsights.model.Contract;
 import com.oldmutual.omjavainsights.model.dto.BusinessTransactionDTO;
+import com.oldmutual.omjavainsights.model.dto.ContractDTO;
 import com.oldmutual.omjavainsights.model.dto.PartyDTO;
 import com.oldmutual.omjavainsights.model.mapper.IBusinessTransactionMapper;
+import com.oldmutual.omjavainsights.model.mapper.IContractMapper;
 import com.oldmutual.omjavainsights.services.PartyService;
 import org.jetbrains.annotations.NotNull;
 import org.springframework.http.HttpStatus;
@@ -20,10 +23,12 @@ public class PartyController {
     private final PartyService partyService;
 
     private final IBusinessTransactionMapper businessTransactionMapper;
+    private final IContractMapper contractMapper;
 
-    public PartyController(PartyService partyService, IBusinessTransactionMapper businessTransactionMapper) {
+    public PartyController(PartyService partyService, IBusinessTransactionMapper businessTransactionMapper, IContractMapper contractMapper) {
         this.partyService = partyService;
         this.businessTransactionMapper = businessTransactionMapper;
+        this.contractMapper = contractMapper;
     }
 
     @GetMapping("/{id}")
@@ -39,9 +44,9 @@ public class PartyController {
         return new ResponseEntity<>(partyDTO, HttpStatus.OK);
     }
 
-    @GetMapping
+    @GetMapping("/transaction")
     @ResponseBody
-    public ResponseEntity<List<PartyDTO>> getPartyByBusinessTransaction(@RequestBody Object object){//using object as request could come through as normal or DTO
+    public ResponseEntity<List<PartyDTO>> getPartiesByBusinessTransaction(@RequestBody Object object){//using object as request could come through as normal or DTO
 
         BusinessTransactionDTO businessTransactionDTO = null;
 
@@ -57,12 +62,40 @@ public class PartyController {
     }
 
 
+    @GetMapping("/contract")
+    @ResponseBody
+    public  ResponseEntity<List<PartyDTO>> getPartiesByContract(@RequestBody Object object){
+
+        ContractDTO contractDTO = null;
+
+        if(object instanceof Contract){
+            var tempObj = (Contract) object;
+            contractDTO = contractMapper.contractToContractDTO(tempObj);
+        }else if(object instanceof ContractDTO){
+            contractDTO = (ContractDTO) object;
+        }
+        return getDTOListForParty(contractDTO);
+    }
+
+
     @NotNull
-    private ResponseEntity<List<PartyDTO>> getDTOListForParty(@RequestBody BusinessTransactionDTO businessTransactionDTO) {
-        var partiesDTO = partyService.getPartyByTransaction(businessTransactionDTO);
+    private ResponseEntity<List<PartyDTO>> getDTOListForParty(BusinessTransactionDTO businessTransactionDTO) {
+        var partiesDTO = partyService.getPartiesByTransaction(businessTransactionDTO);
 
         if(partiesDTO == null || partiesDTO.size() == 0){
             return new ResponseEntity<>(new ArrayList<>(), HttpStatus.NOT_FOUND);
+        }
+
+        return new ResponseEntity<>(partiesDTO, HttpStatus.OK);
+    }
+
+    @NotNull
+    private ResponseEntity<List<PartyDTO>> getDTOListForParty(ContractDTO contractDTO){
+
+        var partiesDTO = partyService.getPartiesByContract(contractDTO);
+
+        if(partiesDTO == null || partiesDTO.size() == 0){
+            return new ResponseEntity<>(new ArrayList<>(),HttpStatus.NOT_FOUND);
         }
 
         return new ResponseEntity<>(partiesDTO, HttpStatus.OK);

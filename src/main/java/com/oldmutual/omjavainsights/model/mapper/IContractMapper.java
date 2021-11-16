@@ -17,7 +17,7 @@ public interface IContractMapper {
     ContractDTO contractToContractDTO(Contract contract);
 
     // todo add mapping needed for contract and contract dto
-    Contract contractToContract(ContractDTO contractDTO);
+    Contract contractDTOToContract(ContractDTO contractDTO);
 
     //List Conversions
     List<ContractDTO> contractListToContractListDTO(List<Contract> contracts);

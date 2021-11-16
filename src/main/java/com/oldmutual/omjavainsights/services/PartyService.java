@@ -1,10 +1,12 @@
 package com.oldmutual.omjavainsights.services;
 
 import com.oldmutual.omjavainsights.model.BusinessTransaction;
+import com.oldmutual.omjavainsights.model.Contract;
 import com.oldmutual.omjavainsights.model.dto.BusinessTransactionDTO;
 import com.oldmutual.omjavainsights.model.dto.ContractDTO;
 import com.oldmutual.omjavainsights.model.dto.PartyDTO;
 import com.oldmutual.omjavainsights.model.mapper.IBusinessTransactionMapper;
+import com.oldmutual.omjavainsights.model.mapper.IContractMapper;
 import com.oldmutual.omjavainsights.model.mapper.IPartyMapper;
 import com.oldmutual.omjavainsights.repositories.IBusinessTransactionRepository;
 import com.oldmutual.omjavainsights.repositories.IPartyRepository;
@@ -22,8 +24,11 @@ public class PartyService implements IPartyService {
     private final IPartyMapper partyMapper;
     private final IPartyRepository partyRepository;
 
+    //mappers
     @Autowired
     private IBusinessTransactionMapper businessTransactionMapper;
+    @Autowired
+    private IContractMapper contractMapper;
 
     public PartyService(IPartyMapper partyMapper, IPartyRepository partyRepository) {
         this.partyMapper = partyMapper;
@@ -49,7 +54,7 @@ public class PartyService implements IPartyService {
     }
 
     @Override
-    public List<PartyDTO> getPartyByTransaction(BusinessTransactionDTO businessTransactionDTO) {
+    public List<PartyDTO> getPartiesByTransaction(BusinessTransactionDTO businessTransactionDTO) {
 
         var busTrans = businessTransactionMapper.busTransDTOToBusTrans(businessTransactionDTO);
         var parties =  partyRepository.findByBusinessTransactions(busTrans);
@@ -61,6 +66,17 @@ public class PartyService implements IPartyService {
         return partyMapper.partyListToPartyDTOList(parties);
     }
 
+    @Override
+    public List<PartyDTO> getPartiesByContract(ContractDTO contractDTO) {
+        var contract = contractMapper.contractDTOToContract(contractDTO);
+        var parties = partyRepository.findByBusinessTransactions_Contracts(contract);
+
+        if(parties.size() == 0) {
+            return null;
+        }
+
+        return partyMapper.partyListToPartyDTOList(parties);
+    }
 
 
 }

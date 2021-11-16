@@ -6,10 +6,8 @@ import com.oldmutual.omjavainsights.model.Party;
 
 import java.util.List;
 
-public interface ICustomPartyRepository {
+public interface ICustomBusinessTransactionRepository {
 
-    List<Party> findByBusinessTransactions(BusinessTransaction businessTransaction);
-    List<Party> findByBusinessTransactions_Contracts(Contract contract);
-
-
+    List<BusinessTransaction> findByContracts(Contract contract);
+    List<BusinessTransaction> findByParties(Party party);
 }
