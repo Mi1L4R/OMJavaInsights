@@ -1,5 +1,6 @@
 package com.oldmutual.omjavainsights.services;
 
+import com.oldmutual.omjavainsights.model.dto.ContractDTO;
 import com.oldmutual.omjavainsights.model.dto.ContractRoleDTO;
 import com.oldmutual.omjavainsights.model.mapper.IContractRoleMapper;
 import com.oldmutual.omjavainsights.repositories.IContractRoleRepository;
@@ -22,8 +23,14 @@ public class ContractRoleService implements IContractRoleService {
 
     @Override
     public ContractRoleDTO getRoleById(Long id) {
-        return contractRoleRepository.findById(id).stream()
-                .map(contractRole -> contractRoleMapper.contractRoleToContractRoleDTO(contractRole))
-                .collect(Collectors.toList()).get(0);
+        try {
+
+            var contractRole = contractRoleRepository.findById(id).get();
+            return contractRoleMapper.contractRoleToContractRoleDTO(contractRole);
+        } catch (Exception e) {
+
+            //todo implement logging
+            return new ContractRoleDTO();
+        }
     }
 }

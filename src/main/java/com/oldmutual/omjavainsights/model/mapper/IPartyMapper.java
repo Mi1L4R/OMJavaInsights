@@ -13,7 +13,7 @@ import java.util.List;
 public interface IPartyMapper {
 
     // todo add mapping needed for party and party dto differences
-    PartyDTO partyToPartyDto(Party party);
+    PartyDTO partyToPartyDTO(Party party);
 
     //todo add mapping needed for party and party dto differences
     Party partyDTOToParty(PartyDTO partyDTO);

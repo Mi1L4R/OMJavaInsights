@@ -1,5 +1,6 @@
 package com.oldmutual.omjavainsights.services;
 
+import com.oldmutual.omjavainsights.model.dto.ContractDTO;
 import com.oldmutual.omjavainsights.model.dto.RoleDTO;
 import com.oldmutual.omjavainsights.model.mapper.IRoleMapper;
 import com.oldmutual.omjavainsights.repositories.IRoleRepository;
@@ -21,8 +22,14 @@ public class RoleService implements IRoleService {
 
     @Override
     public RoleDTO getRoleById(Long id) {
-        return roleRepository.findById(id).stream()
-                .map(role -> roleMapper.roleToRoleDTO(role))
-                .collect(Collectors.toList()).get(0);
+        try {
+
+            var role = roleRepository.findById(id).get();
+            return roleMapper.roleToRoleDTO(role);
+        } catch (Exception e) {
+
+            //todo implement logging
+            return new RoleDTO();
+        }
     }
 }

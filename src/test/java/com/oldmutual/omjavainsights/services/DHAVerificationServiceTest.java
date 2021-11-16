@@ -12,6 +12,10 @@ import org.mockito.Mock;
 import org.mockito.MockitoAnnotations;
 import org.mockito.Spy;
 import org.mockito.junit.jupiter.MockitoExtension;
+import org.springframework.boot.test.context.SpringBootTest;
+import org.springframework.boot.test.mock.mockito.MockBean;
+import org.springframework.boot.test.mock.mockito.SpyBean;
+import org.springframework.test.context.junit.jupiter.SpringExtension;
 
 import java.util.Date;
 import java.util.Optional;
@@ -19,7 +23,8 @@ import java.util.Optional;
 import static org.junit.jupiter.api.Assertions.*;
 import static org.mockito.Mockito.when;
 
-@ExtendWith(MockitoExtension.class)
+@ExtendWith(SpringExtension.class)
+@SpringBootTest
 class DHAVerificationServiceTest {
 
     public static final Long ID = 1L;
@@ -30,19 +35,19 @@ class DHAVerificationServiceTest {
     public static final String GENDER = "Male";
     public static final Date DATERECEIVED = new Date();
 
-    @InjectMocks
+    @MockBean
     DHAVerificationService verificationService;
 
-    @Mock
+    @MockBean
     IDHAVerificationRepository verificationRepository;
 
-    @Spy
+    @SpyBean
     IDHAVerificationMapper verificationMapper;
 
     @BeforeEach
     void setUp() {
 
-        MockitoAnnotations.openMocks(this);
+        verificationService = new DHAVerificationService(verificationMapper, verificationRepository);
     }
 
     @Test

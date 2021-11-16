@@ -12,6 +12,10 @@ import org.mockito.Mock;
 import org.mockito.MockitoAnnotations;
 import org.mockito.Spy;
 import org.mockito.junit.jupiter.MockitoExtension;
+import org.springframework.boot.test.context.SpringBootTest;
+import org.springframework.boot.test.mock.mockito.MockBean;
+import org.springframework.boot.test.mock.mockito.SpyBean;
+import org.springframework.test.context.junit.jupiter.SpringExtension;
 
 import javax.swing.text.html.Option;
 
@@ -20,7 +24,8 @@ import java.util.Optional;
 import static org.junit.jupiter.api.Assertions.*;
 import static org.mockito.Mockito.when;
 
-@ExtendWith(MockitoExtension.class)
+@ExtendWith(SpringExtension.class)
+@SpringBootTest
 class RoleServiceTest {
 
     public static final Long ID = 1L;
@@ -29,19 +34,19 @@ class RoleServiceTest {
     public static final String SCREENINGROLE= "Screening Role";
     public static final String DETNATIONALITY= "South African";
 
-    @InjectMocks
+    @MockBean
     RoleService roleService;
 
-    @Mock
+    @MockBean
     IRoleRepository roleRepository;
 
-    @Spy
+    @SpyBean
     IRoleMapper roleMapper;
 
     @BeforeEach
     void setUp(){
 
-        MockitoAnnotations.openMocks(this);
+        roleService = new RoleService(roleMapper, roleRepository);
     }
 
     @Test

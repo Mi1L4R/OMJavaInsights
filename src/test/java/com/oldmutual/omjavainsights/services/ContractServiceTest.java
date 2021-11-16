@@ -18,6 +18,7 @@ import org.mockito.junit.jupiter.MockitoExtension;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.boot.test.mock.mockito.MockBean;
+import org.springframework.boot.test.mock.mockito.MockBeans;
 import org.springframework.boot.test.mock.mockito.SpyBean;
 import org.springframework.test.context.junit.jupiter.SpringExtension;
 
@@ -55,8 +56,7 @@ class ContractServiceTest {
 
     //todo add Product for testing
 
-
-    @Mock
+    @MockBean
     ContractService contractService;
 
 
@@ -73,8 +73,6 @@ class ContractServiceTest {
 
     @BeforeEach
     void setUp() {
-
-        MockitoAnnotations.openMocks(this);
         contractService = new ContractService(contractMapper, contractRepository);
     }
 

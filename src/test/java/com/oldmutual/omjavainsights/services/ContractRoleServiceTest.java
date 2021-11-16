@@ -2,6 +2,7 @@ package com.oldmutual.omjavainsights.services;
 
 import com.oldmutual.omjavainsights.model.Contract;
 import com.oldmutual.omjavainsights.model.ContractRole;
+import com.oldmutual.omjavainsights.model.mapper.IContractMapper;
 import com.oldmutual.omjavainsights.model.mapper.IContractRoleMapper;
 import com.oldmutual.omjavainsights.repositories.IContractRoleRepository;
 import com.oldmutual.omjavainsights.services.interfaces.IContractRoleService;
@@ -13,32 +14,42 @@ import org.mockito.Mock;
 import org.mockito.MockitoAnnotations;
 import org.mockito.Spy;
 import org.mockito.junit.jupiter.MockitoExtension;
+import org.springframework.boot.test.context.SpringBootTest;
+import org.springframework.boot.test.mock.mockito.MockBean;
+import org.springframework.boot.test.mock.mockito.SpyBean;
+import org.springframework.test.context.junit.jupiter.SpringExtension;
 
 import java.util.Optional;
 
 import static org.junit.jupiter.api.Assertions.*;
 import static org.mockito.Mockito.when;
 
-@ExtendWith(MockitoExtension.class)
+@ExtendWith(SpringExtension.class)
+@SpringBootTest
 class ContractRoleServiceTest {
 
     public static final Long ID =1L;
     public static final String DESCRIPTION = "THis is a description";
     public static final Contract CONTRACT = Contract.builder().contractId(2L).build();
     //Todo Add Contract and Party to test
-    @InjectMocks
+
+    @MockBean
     ContractRoleService contractRoleService;
 
-    @Mock
+    @MockBean
     IContractRoleRepository contractRoleRepository;
 
-    @Spy
+    //mappers
+    @SpyBean
     IContractRoleMapper contractRoleMapper;
+
+    @SpyBean
+    IContractMapper contractMapper;
 
     @BeforeEach
     void setUp() {
 
-        MockitoAnnotations.openMocks(this);
+        contractRoleService = new ContractRoleService(contractRoleMapper, contractRoleRepository);
 
     }
 
@@ -59,7 +70,8 @@ class ContractRoleServiceTest {
         //then
         assertAll("Assert that repo retrieved a contractRole and successfully mapped it",
                 () -> assertEquals(ID, contractRoleDTO.getContractRoleId()),
-                () -> assertEquals(DESCRIPTION, contractRoleDTO.getRoleDescription())
+                () -> assertEquals(DESCRIPTION, contractRoleDTO.getRoleDescription()),
+                () -> assertEquals(contractMapper.contractToContractDTO(CONTRACT), contractRoleDTO.getContract())
         );
     }
 }

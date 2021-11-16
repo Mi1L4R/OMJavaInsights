@@ -18,18 +18,17 @@ public class AddressController {
         this.addressService = addressService;
     }
 
-    @GetMapping
+    @GetMapping("/{id}")
     @ResponseBody
-    public ResponseEntity<AddressDTO> getAddressById() {
+    public ResponseEntity<AddressDTO> getAddressById(@PathVariable Long id) {
 
-        System.out.println("#################################Printing");
-        return new ResponseEntity<>(new AddressDTO(), HttpStatus.OK);
-//        var addDto = addressService.getAddressById(id);
-//
-//        if(addDto == null){
-//            return new AddressDTO();
-//        }
-//
-//        return addDto;
+
+        var addDto = addressService.getAddressById(id);
+
+        if(addDto == null || addDto.equals(new AddressDTO())){
+            return new ResponseEntity<>(new AddressDTO(), HttpStatus.NOT_FOUND);
+        }
+
+        return new ResponseEntity<>(addDto, HttpStatus.OK);
     }
 }

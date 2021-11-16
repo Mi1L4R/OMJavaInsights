@@ -1,5 +1,6 @@
 package com.oldmutual.omjavainsights.services;
 
+import com.oldmutual.omjavainsights.model.dto.ContractDTO;
 import com.oldmutual.omjavainsights.model.dto.NaturalPersonDTO;
 import com.oldmutual.omjavainsights.model.mapper.INaturalPersonMapper;
 import com.oldmutual.omjavainsights.repositories.INaturalPersonRepository;
@@ -21,8 +22,15 @@ public class NaturalPersonService implements INaturalPersonService {
 
     @Override
     public NaturalPersonDTO getNaturalPersonById(Long id) {
-        return naturalPersonRepository.findById(id).stream()
-                .map(naturalPerson -> naturalPersonMapper.natPerToNatPerDTO(naturalPerson))
-                .collect(Collectors.toList()).get(0);
+
+        try {
+
+            var natPerson = naturalPersonRepository.findById(id).get();
+            return naturalPersonMapper.natPerToNatPerDTO(natPerson);
+        } catch (Exception e) {
+
+            //todo implement logging
+            return new NaturalPersonDTO();
+        }
     }
 }

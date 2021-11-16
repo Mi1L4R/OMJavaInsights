@@ -1,5 +1,6 @@
 package com.oldmutual.omjavainsights.services;
 
+import com.oldmutual.omjavainsights.model.dto.ContractDTO;
 import com.oldmutual.omjavainsights.model.dto.IdentificationDetailDTO;
 import com.oldmutual.omjavainsights.model.mapper.IIdentificationDetailMapper;
 import com.oldmutual.omjavainsights.repositories.IIdentificationDetailRepository;
@@ -21,8 +22,15 @@ public class IdentificationDetailService implements IIdentificationDetailService
 
     @Override
     public IdentificationDetailDTO getIdDetailById(Long id) {
-        return identificationDetailRepository.findById(id).stream()
-                .map(identificationDetail -> identificationDetailMapper.idDetailToIdDetailDTO(identificationDetail))
-                .collect(Collectors.toList()).get(0);
+
+        try {
+
+            var idDetail = identificationDetailRepository.findById(id).get();
+            return identificationDetailMapper.idDetailToIdDetailDTO(idDetail);
+        } catch (Exception e) {
+
+            //todo implement logging
+            return new IdentificationDetailDTO();
+        }
     }
 }

@@ -12,6 +12,11 @@ import org.mockito.Mock;
 import org.mockito.MockitoAnnotations;
 import org.mockito.Spy;
 import org.mockito.junit.jupiter.MockitoExtension;
+import org.springframework.boot.test.context.SpringBootTest;
+import org.springframework.boot.test.mock.mockito.MockBean;
+import org.springframework.boot.test.mock.mockito.SpyBean;
+import org.springframework.boot.test.mock.mockito.SpyBeans;
+import org.springframework.test.context.junit.jupiter.SpringExtension;
 
 import javax.swing.text.html.Option;
 import java.util.*;
@@ -19,7 +24,8 @@ import java.util.*;
 import static org.junit.jupiter.api.Assertions.*;
 import static org.mockito.Mockito.when;
 
-@ExtendWith(MockitoExtension.class)
+@ExtendWith(SpringExtension.class)
+@SpringBootTest
 class NaturalPersonServiceTest {
 
     public static final Long ID = 1L;
@@ -281,19 +287,56 @@ class NaturalPersonServiceTest {
     public static final Integer TOTRISKRATING = 10000;
 
 
-    @InjectMocks
+    @MockBean
     NaturalPersonService naturalPersonService;
 
-    @Mock
+    @MockBean
     INaturalPersonRepository naturalPersonRepository;
 
-    @Spy
+    //mappers
+    @SpyBean
     INaturalPersonMapper naturalPersonMapper;
+
+    @SpyBean
+    IDHAVerificationMapper verificationMapper;
+
+    @SpyBean
+    IAddressMapper addressMapper;
+
+    @SpyBean
+    IContactDetailMapper contactDetailMapper;
+
+    @SpyBean
+    IContractMapper contractMapper;
+
+    @SpyBean
+    ICountryMapper countryMapper;
+
+    @SpyBean
+    IIdentificationDetailMapper identificationDetailMapper;
+
+    @SpyBean
+    IRoleMapper roleMapper;
+
+    @SpyBean
+    IScreeningMapper screeningMapper;
+
+    @SpyBean
+    ITaxResidencyMapper taxResidencyMapper;
+
+    @SpyBean
+    IVerificationDocumentMapper verificationDocumentMapper;
+
+    @SpyBean
+    IRequirementMapper requirementMapper;
+
+    @SpyBean
+    IPartyMapper partyMapper;
 
     @BeforeEach
     void setUp() {
 
-        MockitoAnnotations.openMocks(this);
+        naturalPersonService = new NaturalPersonService(naturalPersonMapper,naturalPersonRepository);
     }
 
     @Test
@@ -336,12 +379,12 @@ class NaturalPersonServiceTest {
         //then
         assertAll("Assert that repo retrieved a party and successfully mapped it (Including List mapping)",
                 () -> assertEquals(ID, naturalPersonDTO.getNaturalPersonId()),
-                () -> assertEquals(DHA_VERIFICATIONS, naturalPersonDTO.getDhaVerifications()),
-                () -> assertEquals(ADDRESSES, naturalPersonDTO.getAddresses()),
-                () -> assertEquals(CONTACT_DETAILS, naturalPersonDTO.getContactDetails()),
-                () -> assertEquals(CONTRACTS, naturalPersonDTO.getContracts()),
-                () -> assertEquals(COUNTRYOFBIRTH, naturalPersonDTO.getCountryOfBirth()),
-                () -> assertEquals(COUNTRYOFRES, naturalPersonDTO.getCountryOfResidence()),
+                () -> assertEquals(verificationMapper.dhaListTodhaDTOList(DHA_VERIFICATIONS), naturalPersonDTO.getDhaVerifications()),
+                () -> assertEquals(addressMapper.addressListToAddressListDTO(ADDRESSES), naturalPersonDTO.getAddresses()),
+                () -> assertEquals(contactDetailMapper.cDetailListToCDetailDTOList(CONTACT_DETAILS), naturalPersonDTO.getContactDetails()),
+                () -> assertEquals(contractMapper.contractListToContractListDTO(CONTRACTS), naturalPersonDTO.getContracts()),
+                () -> assertEquals(countryMapper.countryToCountryDTO(COUNTRYOFBIRTH), naturalPersonDTO.getCountryOfBirth()),
+                () -> assertEquals(countryMapper.countryToCountryDTO(COUNTRYOFRES), naturalPersonDTO.getCountryOfResidence()),
                 () -> assertEquals(DOB, naturalPersonDTO.getDateOfBirth()),
                 () -> assertEquals(DOD, naturalPersonDTO.getDateOfDeath()),
                 () -> assertEquals(EMPLEVEL, naturalPersonDTO.getEmployeeLevel()),
@@ -350,17 +393,17 @@ class NaturalPersonServiceTest {
                 () -> assertEquals(PREVFIRSTNAME, naturalPersonDTO.getPreviousFirstName()),
                 () -> assertEquals(PREVLASTNAME, naturalPersonDTO.getPreviousLastName()),
                 () -> assertEquals(GENDER, naturalPersonDTO.getGender()),
-                () -> assertEquals(IDENTIFICATION_DETAILS, naturalPersonDTO.getIdentificationDetails()),
+                () -> assertEquals(identificationDetailMapper.idDetailListToIdDetailDTOList(IDENTIFICATION_DETAILS), naturalPersonDTO.getIdentificationDetails()),
                 () -> assertEquals(INDUSTRY, naturalPersonDTO.getIndustry()),
                 () -> assertEquals(NATIONALITY, naturalPersonDTO.getNationality()),
-                () -> assertEquals(ROLES, naturalPersonDTO.getRoles()),
-                () -> assertEquals(SCREENING, naturalPersonDTO.getScreening()),
+                () -> assertEquals(roleMapper.roleListToRoleDTOList(ROLES), naturalPersonDTO.getRoles()),
+                () -> assertEquals(screeningMapper.screeningToScreeningDTO(SCREENING), naturalPersonDTO.getScreening()),
                 () -> assertEquals(SRCOFINCOME, naturalPersonDTO.getSourceOfIncome()),
-                () -> assertEquals(TAX_RESIDENCIES, naturalPersonDTO.getTaxResidencies()),
-                () -> assertEquals(VERIFICATION_DOCUMENTS, naturalPersonDTO.getVerificationDocuments()),
-                () -> assertEquals(REQUIREMENTS, naturalPersonDTO.getRequirements()),
-                () -> assertEquals(PARTY, naturalPersonDTO.getParty()),
-                () -> assertEquals(TOTRISKRATING, naturalPersonDTO.getTotalRiskRating()),
+                () -> assertEquals(taxResidencyMapper.taxResListToTaxResDTOList(TAX_RESIDENCIES), naturalPersonDTO.getTaxResidencies()),
+                () -> assertEquals(verificationDocumentMapper.verDocListToVerDocDTOList(VERIFICATION_DOCUMENTS), naturalPersonDTO.getVerificationDocuments()),
+                () -> assertEquals(requirementMapper.requirementListToRequirementDTOList(REQUIREMENTS), naturalPersonDTO.getRequirements()),
+                () -> assertEquals(partyMapper.partyToPartyDTO(PARTY), naturalPersonDTO.getParty()),
+                () -> assertEquals(TOTRISKRATING, naturalPersonDTO.getTotalRiskRating())
         );
     }
 }

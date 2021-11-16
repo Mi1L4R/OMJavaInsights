@@ -21,8 +21,16 @@ public class AssociatedPartyService implements IAssociatedPartyService {
 
     @Override
     public AssociatedPartyDTO getAssociatedPartyById(Long id) {
-        return associatedPartyRepository.findById(id).stream()
-                .map(associatedParty -> associatedPartyMapper.assPartyToAssPartyDTO(associatedParty))
-                .collect(Collectors.toList()).get(0);
+
+        try{
+
+            var assParty = associatedPartyRepository.findById(id).get();
+            return associatedPartyMapper.assPartyToAssPartyDTO(assParty);
+
+        }catch (Exception e){
+
+            //todo implement logging
+            return new AssociatedPartyDTO();
+        }
     }
 }

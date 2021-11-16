@@ -1,5 +1,6 @@
 package com.oldmutual.omjavainsights.services;
 
+import com.oldmutual.omjavainsights.model.dto.ContractDTO;
 import com.oldmutual.omjavainsights.model.dto.ScreeningDTO;
 import com.oldmutual.omjavainsights.model.mapper.IScreeningMapper;
 import com.oldmutual.omjavainsights.repositories.IScreeningRepository;
@@ -21,8 +22,14 @@ public class ScreeningService implements IScreeningService {
 
     @Override
     public ScreeningDTO getScreeningById(Long id) {
-        return screeningRepository.findById(id).stream()
-                .map(screening -> screeningMapper.screeningToScreeningDTO(screening))
-                .collect(Collectors.toList()).get(0);
+        try {
+
+            var screening = screeningRepository.findById(id).get();
+            return screeningMapper.screeningToScreeningDTO(screening);
+        } catch (Exception e) {
+
+            //todo implement logging
+            return new ScreeningDTO();
+        }
     }
 }

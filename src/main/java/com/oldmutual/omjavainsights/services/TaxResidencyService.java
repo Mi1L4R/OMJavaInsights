@@ -1,5 +1,6 @@
 package com.oldmutual.omjavainsights.services;
 
+import com.oldmutual.omjavainsights.model.dto.ContractDTO;
 import com.oldmutual.omjavainsights.model.dto.TaxResidencyDTO;
 import com.oldmutual.omjavainsights.model.mapper.ITaxResidencyMapper;
 import com.oldmutual.omjavainsights.repositories.ITaxResidencyRepository;
@@ -22,8 +23,14 @@ public class TaxResidencyService implements ITaxResidencyService {
 
     @Override
     public TaxResidencyDTO getTaxResidencyById(Long id) {
-        return taxResidencyRepository.findById(id).stream()
-                .map(taxResidency -> taxResidencyMapper.taxResidencyToTaxResidencyDTO(taxResidency))
-                .collect(Collectors.toList()).get(0);
+        try {
+
+            var taxResidency = taxResidencyRepository.findById(id).get();
+            return taxResidencyMapper.taxResidencyToTaxResidencyDTO(taxResidency);
+        } catch (Exception e) {
+
+            //todo implement logging
+            return new TaxResidencyDTO();
+        }
     }
 }

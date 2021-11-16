@@ -14,13 +14,18 @@ import org.mockito.Mock;
 import org.mockito.MockitoAnnotations;
 import org.mockito.Spy;
 import org.mockito.junit.jupiter.MockitoExtension;
+import org.springframework.boot.test.context.SpringBootTest;
+import org.springframework.boot.test.mock.mockito.MockBean;
+import org.springframework.boot.test.mock.mockito.SpyBean;
+import org.springframework.test.context.junit.jupiter.SpringExtension;
 
 import java.util.Optional;
 
 import static org.junit.jupiter.api.Assertions.*;
 import static org.mockito.Mockito.when;
 
-@ExtendWith(MockitoExtension.class)
+@ExtendWith(SpringExtension.class)
+@SpringBootTest
 class AssociatedPartyServiceTest {
 
     private static final Long ID = 1L;
@@ -29,19 +34,23 @@ class AssociatedPartyServiceTest {
             .partyType("Type")
             .build();
 
-    @InjectMocks
+    @MockBean
     AssociatedPartyService associatedPartyService;
 
-    @Mock
+    @MockBean
     IAssociatedPartyRepository associatedPartyRepository;
 
-    @Spy
-    IAssociatedPartyMapper partyMapper;
+    //mappers
+    @SpyBean
+    IAssociatedPartyMapper associatedPartyMapper;
+
+    @SpyBean
+    IPartyMapper partyMapper;
 
     @BeforeEach
     void setUp() {
 
-        MockitoAnnotations.openMocks(this);
+       associatedPartyService =  new AssociatedPartyService(associatedPartyMapper, associatedPartyRepository);
     }
 
     @Test
@@ -60,7 +69,8 @@ class AssociatedPartyServiceTest {
 
         //then
         assertAll("Assert that repo retrieved a party and successfully mapped it",
-                () -> assertEquals(ID, assPartyDTO.getAssociatedPartyId())
+                () -> assertEquals(ID, assPartyDTO.getAssociatedPartyId()),
+                () -> assertEquals(partyMapper.partyToPartyDTO(PARTY), assPartyDTO.getParty())
                 );
     }
 }

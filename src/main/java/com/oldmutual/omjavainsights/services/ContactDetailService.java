@@ -21,8 +21,16 @@ public class ContactDetailService implements IContactDetailService {
 
     @Override
     public ContactDetailDTO getContactDetailById(Long id) {
-        return contactDetailRepository.findById(id).stream()
-                .map(contactDetail -> contactDetailMapper.contactDetailToContactDetailDTO(contactDetail))
-                .collect(Collectors.toList()).get(0);
+
+        try{
+
+            var contDetail = contactDetailRepository.findById(id).get();
+            return contactDetailMapper.contactDetailToContactDetailDTO(contDetail);
+        }
+        catch (Exception e){
+
+            //todo implement logging
+            return new ContactDetailDTO();
+        }
     }
 }

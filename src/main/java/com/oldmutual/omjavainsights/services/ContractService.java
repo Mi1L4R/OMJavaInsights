@@ -19,7 +19,7 @@ public class ContractService implements IContractService {
     private final IContractRepository contractRepository;
 
 
-    public ContractService(IContractMapper contractMapper,  IContractRepository contractRepository) {
+    public ContractService(IContractMapper contractMapper, IContractRepository contractRepository) {
         this.contractMapper = contractMapper;
         this.contractRepository = contractRepository;
     }
@@ -27,10 +27,12 @@ public class ContractService implements IContractService {
     @Override
     public ContractDTO getContractById(Long id) {
 
-        try{
+        try {
+
             var contract = contractRepository.findById(id).get();
             return contractMapper.contractToContractDTO(contract);
-        }catch (Exception e){
+        } catch (Exception e) {
+
             //todo implement logging
             return new ContractDTO();
         }

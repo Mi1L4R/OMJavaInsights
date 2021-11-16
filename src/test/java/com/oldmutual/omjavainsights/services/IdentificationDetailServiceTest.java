@@ -14,6 +14,10 @@ import org.mockito.Mock;
 import org.mockito.MockitoAnnotations;
 import org.mockito.Spy;
 import org.mockito.junit.jupiter.MockitoExtension;
+import org.springframework.boot.test.context.SpringBootTest;
+import org.springframework.boot.test.mock.mockito.MockBean;
+import org.springframework.boot.test.mock.mockito.SpyBean;
+import org.springframework.test.context.junit.jupiter.SpringExtension;
 
 import java.util.Date;
 import java.util.Optional;
@@ -21,30 +25,35 @@ import java.util.Optional;
 import static org.junit.jupiter.api.Assertions.*;
 import static org.mockito.Mockito.when;
 
-@ExtendWith(MockitoExtension.class)
+@ExtendWith(SpringExtension.class)
+@SpringBootTest
 class IdentificationDetailServiceTest {
 
-    public static final Long ID =1L;
+    public static final Long ID = 1L;
     public static final String IDNUMBER = "1234567";
     public static final String IDTYPE = "Type1";
     public static final Country COUNTRYOFISSUE = Country.builder().countryId(1L).countryCode("Code1").countryClassification("Classified").build();
-    public static final String VISATYPE ="Visa1";
+    public static final String VISATYPE = "Visa1";
     public static final Date DATEOFEXPIRY = new Date();
     public static final Date MODIFIEDON = new Date();
 
-    @InjectMocks
+    @MockBean
     IdentificationDetailService identificationDetailService;
 
-    @Mock
+    @MockBean
     IIdentificationDetailRepository identificationDetailRepository;
 
-    @Spy
+    //mappers
+    @SpyBean
     IIdentificationDetailMapper identificationDetailMapper;
+
+    @SpyBean
+    ICountryMapper countryMapper;
 
     @BeforeEach
     void setUp() {
 
-        MockitoAnnotations.openMocks(this);
+        identificationDetailService = new IdentificationDetailService(identificationDetailMapper, identificationDetailRepository);
     }
 
     @Test
@@ -70,10 +79,10 @@ class IdentificationDetailServiceTest {
                 () -> assertEquals(ID, idDetailDTO.getIdentificationDetailId()),
                 () -> assertEquals(IDNUMBER, idDetailDTO.getIdNumber()),
                 () -> assertEquals(IDTYPE, idDetailDTO.getIdType()),
-                () -> assertEquals(COUNTRYOFISSUE, idDetailDTO.getCountryOfIssue()),
+                () -> assertEquals(countryMapper.countryToCountryDTO(COUNTRYOFISSUE), idDetailDTO.getCountryOfIssue()),
                 () -> assertEquals(VISATYPE, idDetailDTO.getVisaPermitType()),
                 () -> assertEquals(DATEOFEXPIRY, idDetailDTO.getDateOfExpiry()),
                 () -> assertEquals(MODIFIEDON, idDetailDTO.getModifiedOn())
-                );
+        );
     }
 }

@@ -1,5 +1,6 @@
 package com.oldmutual.omjavainsights.services;
 
+import com.oldmutual.omjavainsights.model.dto.ContractDTO;
 import com.oldmutual.omjavainsights.model.dto.VerificationDocumentDTO;
 import com.oldmutual.omjavainsights.model.mapper.IVerificationDocumentMapper;
 import com.oldmutual.omjavainsights.repositories.IVerificationDocumentRepository;
@@ -14,15 +15,22 @@ public class VerificationDocumentService implements IVerificationDocumentService
     private final IVerificationDocumentMapper verificationDocumentMapper;
     private final IVerificationDocumentRepository verificationDocumentRepository;
 
-    public VerificationDocumentService(IVerificationDocumentMapper verificationDocumentMapper, IVerificationDocumentRepository verificationDocumentRepository) {
+    public VerificationDocumentService(IVerificationDocumentMapper verificationDocumentMapper,
+                                       IVerificationDocumentRepository verificationDocumentRepository) {
         this.verificationDocumentMapper = verificationDocumentMapper;
         this.verificationDocumentRepository = verificationDocumentRepository;
     }
 
     @Override
     public VerificationDocumentDTO getVerDocById(Long id) {
-        return verificationDocumentRepository.findById(id).stream()
-                .map(verificationDocument -> verificationDocumentMapper.verDocToVerDocDTO(verificationDocument))
-                .collect(Collectors.toList()).get(0);
+        try {
+
+            var verDoc = verificationDocumentRepository.findById(id).get();
+            return verificationDocumentMapper.verDocToVerDocDTO(verDoc);
+        } catch (Exception e) {
+
+            //todo implement logging
+            return new VerificationDocumentDTO();
+        }
     }
 }

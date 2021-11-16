@@ -12,7 +12,11 @@ import org.mockito.Mock;
 import org.mockito.MockitoAnnotations;
 import org.mockito.Spy;
 import org.mockito.junit.jupiter.MockitoExtension;
+import org.springframework.boot.test.context.SpringBootTest;
+import org.springframework.boot.test.mock.mockito.MockBean;
+import org.springframework.boot.test.mock.mockito.SpyBean;
 import org.springframework.data.repository.query.parser.Part;
+import org.springframework.test.context.junit.jupiter.SpringExtension;
 
 import java.util.Optional;
 
@@ -20,25 +24,27 @@ import static org.junit.jupiter.api.Assertions.assertAll;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.mockito.Mockito.when;
 
-@ExtendWith(MockitoExtension.class)
+@ExtendWith(SpringExtension.class)
+@SpringBootTest
 public class PartyServiceTest {
 
     public static final String ID = "12E3-4F5G6-7RT89";
     public static final String PARTYTYPE = "Clubbing";
 
-    @InjectMocks
+    @MockBean
     PartyService partyService;
 
-    @Mock
+    @MockBean
     IPartyRepository partyRepository;
 
-    @Spy
+    //Mappers
+    @SpyBean
     IPartyMapper partyMapper;
 
     @BeforeEach
     void setUp() {
 
-        MockitoAnnotations.openMocks(this);
+        partyService = new PartyService(partyMapper, partyRepository);
     }
 
     @Test

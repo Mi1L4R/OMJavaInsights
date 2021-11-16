@@ -1,5 +1,6 @@
 package com.oldmutual.omjavainsights.services;
 
+import com.oldmutual.omjavainsights.model.dto.ContractDTO;
 import com.oldmutual.omjavainsights.model.dto.CountryDTO;
 import com.oldmutual.omjavainsights.model.mapper.ICountryMapper;
 import com.oldmutual.omjavainsights.repositories.ICountryRepository;
@@ -21,8 +22,14 @@ public class CountryService implements ICountryService {
 
     @Override
     public CountryDTO getCountryById(Long id) {
-        return countryRepository.findById(id).stream()
-                .map(country -> countryMapper.countryToCountryDTO(country))
-                .collect(Collectors.toList()).get(0);
+        try {
+
+            var country = countryRepository.findById(id).get();
+            return countryMapper.countryToCountryDTO(country);
+        } catch (Exception e) {
+
+            //todo implement logging
+            return new CountryDTO();
+        }
     }
 }

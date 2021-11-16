@@ -23,12 +23,13 @@ public class AddressService implements IAddressService {
     @Override
     public AddressDTO getAddressById(Long id) {
         try{
-            return addressRepository.findById(id).stream()
-                    .map(address -> addressMapper.addressToAddressDTO(address))
-                    .collect(Collectors.toList()).get(0);
+
+            var address = addressRepository.findById(id).get();
+            return addressMapper.addressToAddressDTO(address);
 
         }catch (Exception e){
-            System.out.println(e);
+
+            //todo implement logging
             return new AddressDTO();
         }
 

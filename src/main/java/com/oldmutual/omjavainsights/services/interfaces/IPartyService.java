@@ -1,14 +1,13 @@
 package com.oldmutual.omjavainsights.services.interfaces;
 
+import com.oldmutual.omjavainsights.model.dto.BusinessTransactionDTO;
 import com.oldmutual.omjavainsights.model.dto.PartyDTO;
+
+import java.util.List;
 
 public interface IPartyService {
 
-    /**
-     * Todo
-     * - Implementation Of Methods needed for party service interface
-     */
-
-    //Fake method made for testing
     PartyDTO getPartyById(String id);
+
+    List<PartyDTO> getPartyByTransaction(BusinessTransactionDTO businessTransactionDTO);
 }

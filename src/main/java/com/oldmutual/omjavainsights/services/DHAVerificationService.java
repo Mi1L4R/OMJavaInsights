@@ -1,5 +1,6 @@
 package com.oldmutual.omjavainsights.services;
 
+import com.oldmutual.omjavainsights.model.dto.ContractDTO;
 import com.oldmutual.omjavainsights.model.dto.DHAVerificationDTO;
 import com.oldmutual.omjavainsights.model.mapper.IDHAVerificationMapper;
 import com.oldmutual.omjavainsights.repositories.IDHAVerificationRepository;
@@ -21,8 +22,14 @@ public class DHAVerificationService implements IDHAVerificationService {
 
     @Override
     public DHAVerificationDTO getDHAVerificationById(Long id) {
-        return verificationRepository.findById(id).stream()
-                .map(dhaVerification -> verificationMapper.dhaVerificationTodhaVerificationDTO(dhaVerification))
-                .collect(Collectors.toList()).get(0);
+        try {
+
+            var verification = verificationRepository.findById(id).get();
+            return verificationMapper.dhaVerificationTodhaVerificationDTO(verification);
+        } catch (Exception e) {
+
+            //todo implement logging
+            return new DHAVerificationDTO();
+        }
     }
 }

@@ -12,6 +12,10 @@ import org.mockito.Mock;
 import org.mockito.MockitoAnnotations;
 import org.mockito.Spy;
 import org.mockito.junit.jupiter.MockitoExtension;
+import org.springframework.boot.test.context.SpringBootTest;
+import org.springframework.boot.test.mock.mockito.MockBean;
+import org.springframework.boot.test.mock.mockito.SpyBean;
+import org.springframework.test.context.junit.jupiter.SpringExtension;
 
 import java.util.Date;
 import java.util.Optional;
@@ -19,7 +23,8 @@ import java.util.Optional;
 import static org.junit.jupiter.api.Assertions.*;
 import static org.mockito.Mockito.when;
 
-@ExtendWith(MockitoExtension.class)
+@ExtendWith(SpringExtension.class)
+@SpringBootTest
 class ScreeningServiceTest {
 
     private static final Long ID = 1L;
@@ -35,19 +40,20 @@ class ScreeningServiceTest {
     private static final String SCREENINGRESULTTYPE = "screeningResultType";
     public static final Date MODIFIEDON = new Date();
 
-    @InjectMocks
+    @MockBean
     ScreeningService screeningService;
 
-    @Mock
+    @MockBean
     IScreeningRepository screeningRepository;
 
-    @Spy
+    //mappers
+    @SpyBean
     IScreeningMapper screeningMapper;
 
     @BeforeEach
     void setUp() {
 
-        MockitoAnnotations.openMocks(this);
+        screeningService = new ScreeningService(screeningMapper, screeningRepository);
 
     }
 

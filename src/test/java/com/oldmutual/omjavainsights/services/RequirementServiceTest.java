@@ -16,6 +16,10 @@ import org.mockito.Mock;
 import org.mockito.MockitoAnnotations;
 import org.mockito.Spy;
 import org.mockito.junit.jupiter.MockitoExtension;
+import org.springframework.boot.test.context.SpringBootTest;
+import org.springframework.boot.test.mock.mockito.MockBean;
+import org.springframework.boot.test.mock.mockito.SpyBean;
+import org.springframework.test.context.junit.jupiter.SpringExtension;
 
 import java.util.Date;
 import java.util.Optional;
@@ -23,7 +27,8 @@ import java.util.Optional;
 import static org.junit.jupiter.api.Assertions.*;
 import static org.mockito.Mockito.when;
 
-@ExtendWith(MockitoExtension.class)
+@ExtendWith(SpringExtension.class)
+@SpringBootTest
 class RequirementServiceTest {
 
     public static final Long ID = 1L;
@@ -37,19 +42,23 @@ class RequirementServiceTest {
     public static final Date CREATEDDATE = new Date();
     public static final Boolean NEWREQ = true;
 
-    @InjectMocks
+    @MockBean
     RequirementService requirementService;
 
-    @Mock
+    @MockBean
     IRequirementRepository requirementRepository;
 
-    @Spy
+    //mappers
+    @SpyBean
     IRequirementMapper requirementMapper;
+
+    @SpyBean
+    ICountryMapper countryMapper;
 
     @BeforeEach
     void setUp() {
 
-        MockitoAnnotations.openMocks(this);
+        requirementService = new RequirementService(requirementMapper, requirementRepository);
     }
 
     @Test
@@ -77,7 +86,7 @@ class RequirementServiceTest {
         assertAll("Assert that repo retrieved a Requirement and successfully mapped it (Needs to map types as well)",
                 () -> assertEquals(ID, requirementDTO.getRequirementId()),
                 () -> assertEquals(STATUS, requirementDTO.getStatus()),
-                () -> assertEquals(COUNTRY, requirementDTO.getCountry()),
+                () -> assertEquals(countryMapper.countryToCountryDTO(COUNTRY), requirementDTO.getCountry()),
                 () -> assertEquals(REQCATEGORY, requirementDTO.getRequirementsCategory()),
                 () -> assertEquals(REQTYPE, requirementDTO.getRequirementsType()),
                 () -> assertEquals(REQSUBTYPE, requirementDTO.getRequirementsSubType()),

@@ -1,5 +1,6 @@
 package com.oldmutual.omjavainsights.services;
 
+import com.oldmutual.omjavainsights.model.dto.ContractDTO;
 import com.oldmutual.omjavainsights.model.dto.ProductDTO;
 import com.oldmutual.omjavainsights.model.mapper.IProductMapper;
 import com.oldmutual.omjavainsights.repositories.IProductRepository;
@@ -21,8 +22,14 @@ public class ProductService implements IProductService {
 
     @Override
     public ProductDTO getProductById(Long id) {
-        return productRepository.findById(id).stream()
-                .map(product -> productMapper.productToProductDTO(product))
-                .collect(Collectors.toList()).get(0);
+        try {
+
+            var product = productRepository.findById(id).get();
+            return productMapper.productToProductDTO(product);
+        } catch (Exception e) {
+
+            //todo implement logging
+            return new ProductDTO();
+        }
     }
 }

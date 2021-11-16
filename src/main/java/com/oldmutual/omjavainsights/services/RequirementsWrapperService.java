@@ -1,5 +1,6 @@
 package com.oldmutual.omjavainsights.services;
 
+import com.oldmutual.omjavainsights.model.dto.ContractDTO;
 import com.oldmutual.omjavainsights.model.dto.RequirementsWrapperDTO;
 import com.oldmutual.omjavainsights.model.mapper.IRequirementsWrapperMapper;
 import com.oldmutual.omjavainsights.repositories.IRequirementsWrapperRepository;
@@ -14,15 +15,23 @@ public class RequirementsWrapperService implements IRequirementsWrapperService {
     private final IRequirementsWrapperMapper requirementsWrapperMapper;
     private final IRequirementsWrapperRepository requirementsWrapperRepository;
 
-    public RequirementsWrapperService(IRequirementsWrapperMapper requirementsWrapperMapper, IRequirementsWrapperRepository requirementsWrapperRepository) {
+    public RequirementsWrapperService(IRequirementsWrapperMapper requirementsWrapperMapper,
+                                      IRequirementsWrapperRepository requirementsWrapperRepository) {
+
         this.requirementsWrapperMapper = requirementsWrapperMapper;
         this.requirementsWrapperRepository = requirementsWrapperRepository;
     }
 
     @Override
     public RequirementsWrapperDTO getRWById(Long id) {
-        return requirementsWrapperRepository.findById(id).stream()
-                .map(requirementsWrapper -> requirementsWrapperMapper.rwTorwDTO(requirementsWrapper))
-                .collect(Collectors.toList()).get(0);
+        try {
+
+            var reqWrapper = requirementsWrapperRepository.findById(id).get();
+            return requirementsWrapperMapper.rwTorwDTO(reqWrapper);
+        } catch (Exception e) {
+
+            //todo implement logging
+            return new RequirementsWrapperDTO();
+        }
     }
 }

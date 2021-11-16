@@ -1,5 +1,6 @@
 package com.oldmutual.omjavainsights.services;
 
+import com.oldmutual.omjavainsights.model.dto.ContractDTO;
 import com.oldmutual.omjavainsights.model.dto.RequirementDTO;
 import com.oldmutual.omjavainsights.model.mapper.IRequirementMapper;
 import com.oldmutual.omjavainsights.repositories.IRequirementRepository;
@@ -22,8 +23,14 @@ public class RequirementService implements IRequirementService {
 
     @Override
     public RequirementDTO getRequirementById(Long id) {
-        return requirementRepository.findById(id).stream()
-                .map(requirement -> requirementMapper.requirementToRequirementDTO(requirement))
-                .collect(Collectors.toList()).get(0);
+        try {
+
+            var requirement = requirementRepository.findById(id).get();
+            return requirementMapper.requirementToRequirementDTO(requirement);
+        } catch (Exception e) {
+
+            //todo implement logging
+            return new RequirementDTO();
+        }
     }
 }

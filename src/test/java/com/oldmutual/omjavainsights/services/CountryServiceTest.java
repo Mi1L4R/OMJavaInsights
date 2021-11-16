@@ -12,31 +12,37 @@ import org.mockito.Mock;
 import org.mockito.MockitoAnnotations;
 import org.mockito.Spy;
 import org.mockito.junit.jupiter.MockitoExtension;
+import org.springframework.boot.test.context.SpringBootTest;
+import org.springframework.boot.test.mock.mockito.MockBean;
+import org.springframework.boot.test.mock.mockito.SpyBean;
+import org.springframework.test.context.junit.jupiter.SpringExtension;
 
 import java.util.Optional;
 
 import static org.junit.jupiter.api.Assertions.*;
 import static org.mockito.Mockito.when;
 
-@ExtendWith(MockitoExtension.class)
+@ExtendWith(SpringExtension.class)
+@SpringBootTest
 public class CountryServiceTest {
 
     public static final Long ID = 123L;
     public static final String CODE = "Code1";
     public static final String CLASSIFICATION = "Classified";
 
-    @InjectMocks
+    @MockBean
     CountryService countryService;
 
-    @Mock
+    @MockBean
     ICountryRepository countryRepository;
 
-    @Spy
+    //mappers
+    @SpyBean
     ICountryMapper countryMapper;
 
     @BeforeEach
     void setUp() {
-        MockitoAnnotations.openMocks(this);
+        countryService = new CountryService(countryMapper, countryRepository);
     }
 
     @Test

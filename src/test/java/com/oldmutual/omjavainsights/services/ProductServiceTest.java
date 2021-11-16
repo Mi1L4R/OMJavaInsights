@@ -4,6 +4,7 @@ import com.oldmutual.omjavainsights.model.Contract;
 import com.oldmutual.omjavainsights.model.ContractRole;
 import com.oldmutual.omjavainsights.model.NaturalPerson;
 import com.oldmutual.omjavainsights.model.Product;
+import com.oldmutual.omjavainsights.model.mapper.IContractMapper;
 import com.oldmutual.omjavainsights.model.mapper.IProductMapper;
 import com.oldmutual.omjavainsights.repositories.IProductRepository;
 import com.oldmutual.omjavainsights.services.interfaces.IProductService;
@@ -14,6 +15,10 @@ import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.MockitoAnnotations;
 import org.mockito.junit.jupiter.MockitoExtension;
+import org.springframework.boot.test.context.SpringBootTest;
+import org.springframework.boot.test.mock.mockito.MockBean;
+import org.springframework.boot.test.mock.mockito.SpyBean;
+import org.springframework.test.context.junit.jupiter.SpringExtension;
 
 import java.util.Arrays;
 import java.util.Date;
@@ -22,7 +27,8 @@ import java.util.Optional;
 import static org.junit.jupiter.api.Assertions.*;
 import static org.mockito.Mockito.when;
 
-@ExtendWith(MockitoExtension.class)
+@ExtendWith(SpringExtension.class)
+@SpringBootTest
 class ProductServiceTest {
 
     public static final Long ID = 1L;
@@ -51,19 +57,23 @@ class ProductServiceTest {
             .naturalPerson(NaturalPerson.builder().naturalPersonId(1L).build())
             .build();
 
-    @InjectMocks
+    @MockBean
     ProductService productService;
 
-    @Mock
+    @MockBean
     IProductRepository productRepository;
 
-    @InjectMocks
+    //mappers
+    @SpyBean
     IProductMapper productMapper;
+
+    @SpyBean
+    IContractMapper contractMapper;
 
     @BeforeEach
     void setUp() {
 
-        MockitoAnnotations.openMocks(this);
+        productService = new ProductService(productMapper, productRepository);
     }
 
     @Test
@@ -101,7 +111,8 @@ class ProductServiceTest {
                 () -> assertEquals(START_DATE, productDTO.getStartDate()),
                 () -> assertEquals(END_DATE, productDTO.getEndDate()),
                 () -> assertEquals(PREMIUM, productDTO.getPremium()),
-                () -> assertEquals(PREMIUM_FREQUENCY, productDTO.getPremiumFrequency())
-                );
+                () -> assertEquals(PREMIUM_FREQUENCY, productDTO.getPremiumFrequency()),
+                () -> assertEquals(contractMapper.contractToContractDTO(CONTRACT), productDTO.getContract())
+        );
     }
 }

@@ -73,4 +73,6 @@ public class AddressDTO {
         result = 31 * result + (getNaturalPerson() != null ? getNaturalPerson().hashCode() : 0);
         return result;
     }
+
+
 }

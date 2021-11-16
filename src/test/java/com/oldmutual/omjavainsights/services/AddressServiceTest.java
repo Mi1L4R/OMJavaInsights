@@ -13,6 +13,10 @@ import org.mockito.Mock;
 import org.mockito.MockitoAnnotations;
 import org.mockito.Spy;
 import org.mockito.junit.jupiter.MockitoExtension;
+import org.springframework.boot.test.context.SpringBootTest;
+import org.springframework.boot.test.mock.mockito.MockBean;
+import org.springframework.boot.test.mock.mockito.SpyBean;
+import org.springframework.test.context.junit.jupiter.SpringExtension;
 
 import java.util.Date;
 import java.util.Optional;
@@ -21,7 +25,8 @@ import static org.junit.jupiter.api.Assertions.*;
 import static org.mockito.ArgumentMatchers.*;
 import static org.mockito.Mockito.when;
 
-@ExtendWith(MockitoExtension.class)
+@ExtendWith(SpringExtension.class)
+@SpringBootTest
 class AddressServiceTest {
 
     public static final Long ID = 1L;
@@ -38,21 +43,23 @@ class AddressServiceTest {
     //public static final NaturalPerson NATURALPERSON = todo implementation of natural person
 
 
-    @InjectMocks
+    @MockBean
     AddressService addressService;
 
-
-
-    @Mock
+    @MockBean
     IAddressRepository addressRepository;
 
-    @Spy
+    //mappers
+    @SpyBean
     IAddressMapper addressMapper;
+
+    @SpyBean
+    ICountryMapper countryMapper;
 
     @BeforeEach
     void setUp() {
 
-        MockitoAnnotations.openMocks(this);
+        addressService =  new AddressService(addressMapper, addressRepository);
 
     }
 
@@ -78,8 +85,6 @@ class AddressServiceTest {
         when(addressRepository.findById(1L)).thenReturn(Optional.of(address));
         var addressDTO = addressService.getAddressById(ID);
 
-        System.out.println(addressDTO);
-
         //then
         assertAll("Assert that repo retrieved an address and successfully mapped it",
                 () -> assertEquals(ID, addressDTO.getAddressId()),
@@ -89,7 +94,7 @@ class AddressServiceTest {
                 () -> assertEquals(ADDRESSFOUR, addressDTO.getAddressLineFour()),
                 () -> assertEquals(CITY, addressDTO.getCity()),
                 () -> assertEquals(POSTALCODE, addressDTO.getPostalCode()),
-                () -> assertEquals(COUNTRY, addressDTO.getCountry()),
+                () -> assertEquals(countryMapper.countryToCountryDTO(COUNTRY), addressDTO.getCountry()),
                 () -> assertEquals(CAREOFINDICATOR, addressDTO.getCareOfIndicator()),
                 () -> assertEquals(CAREOFNAME, addressDTO.getCareOfName()),
                 () -> assertEquals(MODIFIEDON, addressDTO.getModifiedOn())

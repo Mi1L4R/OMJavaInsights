@@ -1,10 +1,13 @@
 package com.oldmutual.omjavainsights.services;
 
+import com.oldmutual.omjavainsights.controllers.AddressController;
 import com.oldmutual.omjavainsights.model.ContactDetail;
 import com.oldmutual.omjavainsights.model.Country;
+import com.oldmutual.omjavainsights.model.dto.ContactDetailDTO;
 import com.oldmutual.omjavainsights.model.mapper.IContactDetailMapper;
 import com.oldmutual.omjavainsights.repositories.IContactDetailRepository;
 import com.oldmutual.omjavainsights.services.interfaces.IContactDetailService;
+import org.hibernate.Hibernate;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
@@ -13,6 +16,12 @@ import org.mockito.Mock;
 import org.mockito.MockitoAnnotations;
 import org.mockito.Spy;
 import org.mockito.junit.jupiter.MockitoExtension;
+import org.springframework.boot.autoconfigure.EnableAutoConfiguration;
+import org.springframework.boot.autoconfigure.jdbc.DataSourceAutoConfiguration;
+import org.springframework.boot.test.context.SpringBootTest;
+import org.springframework.boot.test.mock.mockito.MockBean;
+import org.springframework.boot.test.mock.mockito.SpyBean;
+import org.springframework.test.context.junit.jupiter.SpringExtension;
 
 import java.util.Date;
 import java.util.Optional;
@@ -20,7 +29,8 @@ import java.util.Optional;
 import static org.junit.jupiter.api.Assertions.*;
 import static org.mockito.Mockito.when;
 
-@ExtendWith(MockitoExtension.class)
+@ExtendWith(SpringExtension.class)
+@SpringBootTest
 class ContactDetailServiceTest {
 
     public static final Long ID = 1L;
@@ -31,19 +41,20 @@ class ContactDetailServiceTest {
     public static final String PHONENUMBER = "0762779888";
     //public static final NaturalPerson NATURALPERSON = todo implementation of natural person
 
-    @InjectMocks
+    @MockBean
     ContactDetailService contactDetailService;
 
-    @Mock
+    @MockBean
     IContactDetailRepository contactDetailRepository;
 
-    @Spy
+    //mappers
+    @SpyBean
     IContactDetailMapper contactDetailMapper;
 
     @BeforeEach
     void setUp() {
 
-        MockitoAnnotations.openMocks(this);
+        contactDetailService = new ContactDetailService(contactDetailMapper, contactDetailRepository);
     }
 
     @Test
