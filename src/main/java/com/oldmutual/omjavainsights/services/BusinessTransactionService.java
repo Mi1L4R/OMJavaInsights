@@ -2,8 +2,10 @@ package com.oldmutual.omjavainsights.services;
 
 import com.oldmutual.omjavainsights.model.dto.BusinessTransactionDTO;
 import com.oldmutual.omjavainsights.model.dto.ContactDetailDTO;
+import com.oldmutual.omjavainsights.model.dto.ContractDTO;
 import com.oldmutual.omjavainsights.model.dto.PartyDTO;
 import com.oldmutual.omjavainsights.model.mapper.IBusinessTransactionMapper;
+import com.oldmutual.omjavainsights.model.mapper.IContractMapper;
 import com.oldmutual.omjavainsights.model.mapper.IPartyMapper;
 import com.oldmutual.omjavainsights.repositories.IBusinessTransactionRepository;
 import com.oldmutual.omjavainsights.services.interfaces.IBusinessTransactionService;
@@ -20,6 +22,9 @@ public class BusinessTransactionService implements IBusinessTransactionService {
 
     @Autowired
     private IPartyMapper partyMapper;
+
+    @Autowired
+    private IContractMapper contractMapper;
 
     public BusinessTransactionService(IBusinessTransactionMapper businessTransactionMapper, IBusinessTransactionRepository businessTransactionRepository) {
         this.businessTransactionMapper = businessTransactionMapper;
@@ -53,5 +58,18 @@ public class BusinessTransactionService implements IBusinessTransactionService {
         return businessTransactionMapper.busTransListTobusTransDTOList(transactions);
 
 
+    }
+
+    @Override
+    public List<BusinessTransactionDTO> getBusinessTransactionsByContract(ContractDTO contractDTO) {
+
+         var contract = contractMapper.contractDTOToContract(contractDTO);
+         var transactions = businessTransactionRepository.findByContracts(contract);
+
+         if(transactions.size() == 0){
+             return null;
+         }
+
+         return businessTransactionMapper.busTransListTobusTransDTOList(transactions);
     }
 }

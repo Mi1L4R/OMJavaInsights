@@ -36,6 +36,7 @@ public class CustomBusinessTransactionRepository implements ICustomBusinessTrans
 
     @Override
     public List<BusinessTransaction> findByParties(Party party) {
+
         if(party == null){
             return new ArrayList<>();
         }
